@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+    <title>登入 &laquo; Facekeeper</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{$bPack_rootpath}public/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/login.css" />
+</head>
+<body>
+    <div id="container">
+        <div id="form_container">
+            <div id="logo">
+                <img src="{$bPack_rootpath}public/img/logo.png" alt="FaceKeeper" title="FaceKeeper" />
+            </div>
+            
+            <div id="login_form">
+                <form action="{$bPack_rootpath}user/login/login" method="post">
+                    <label for="username">帳號</label><input type="text" name="username" size="10" maxlength="16" tabindex="1" /> 
+                    <label for="password">密碼</label><input type="password" name="password" size="10" maxlength="16" tabindex="2" />
+                    <input type="submit" value="登入" tabindex="3" />
+                </form>
+                
+                {if $notifyMessage neq ''}
+                <p class="status msg">請輸入帳號密碼登入 :)</p>
+                {else}
+                <p class="status error">{$notifyMessage}</p>
+                {/if}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

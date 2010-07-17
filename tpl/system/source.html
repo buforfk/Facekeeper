@@ -1,0 +1,17 @@
+{include file="header.html"}
+{include file="system/menu.html"}
+<div id="main" class="system_source">
+    <h2>結果來源管理</h2>
+    {if $NotifyMessage}
+        <div class="message">{$NotifyMessage.message}</div>
+    {/if}
+    
+    {section name=sec1 loop=$source}
+    <div class="SE rounded">
+        <h3>{$source[sec1].name}</h3>
+        <img src="{$bPack_rootpath}public/img/SE/{$source[sec1].name}.png" alt="Google" class="icon" />
+        <a class="action {if $source[sec1].status eq 0}de{/if}activated" href="{$bPack_rootpath}system/source/{if $source[sec1].status eq 1}de{/if}activate?source={$source[sec1].name}">{if $source[sec1].status eq 0}啟用{else}停用{/if}</a>
+    </div>
+    {/section}
+</div>
+{include file="footer.html"}

@@ -1,0 +1,9 @@
+{include file="admin/header.html"}]
+<a href="{$bPack_rootpath}admin/misc/listItem?c={$c}">回列表</a>
+
+<form method="post" action="{$bPack_rootpath}admin/misc/modify?c={$c}&amp;id={$item_id}">
+    CURRENT: {$name}<br />
+    NEW: <input type="text" value="{$name}"  name="name"/><br /><br />
+    <input type="submit" />
+</form>
+{include file="admin/footer.html"}

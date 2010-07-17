@@ -1,0 +1,32 @@
+{include file="header.html"}
+{include file="report/menu.html"}
+<div id="main">
+<h2>歷史報表列表</h2>
+
+{if $NotifyMessage}
+    <div class="message">{$NotifyMessage.message}</div>
+{/if}
+
+<table class="sortable">
+    <thead>
+    <tr>
+        <th>產生時間</th>
+        <th>檔名</th>
+        <th width="80">檔案大小</th>
+        <th width="80">動作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {section name=sec1 loop=$report}
+    <tr id="row-{$report[sec1].id}">
+        <td>{$report[sec1].time}</td>
+        <td><a target="_blank" href="{$bPack_rootpath}tmp/Report/{$report[sec1].filename}">{$report[sec1].filename}</a></td>
+        <td>{$report[sec1].filesize}</td>
+        <td><a href="{$bPack_rootpath}report/history/delete?hash={$report[sec1].id}" class="delete">刪除</a></td>
+    </tr>
+    {/section}
+    </tbody>
+</table>
+
+</div>
+{include file="footer.html"}

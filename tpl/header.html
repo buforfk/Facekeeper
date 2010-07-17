@@ -1,0 +1,41 @@
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+    <title>Facekeeper</title>
+    
+    <link rel="shortcut icon" type="image/x-icon" href="{$bPack_rootpath}public/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/page.css" />
+    <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/jquery-ui-1.8.2.custom.css" />
+    <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/prettyPhoto.css" />
+    <script type="text/javascript" src="{$bPack_rootpath}public/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="{$bPack_rootpath}public/js/jquery-ui-1.8.2.custom.min.js"></script>
+    <script type="text/javascript" src="{$bPack_rootpath}public/js/jquery.prettyPhoto.js"></script>
+    {literal}
+    <script type="text/javascript">
+    $(document).ready(function(){
+            $("a[rel^='prettyPhoto']").prettyPhoto({theme:'facebook'});
+            $("a.delete").click(function(){return confirm("是否確定刪除本項目？")})
+            $("div.message").ready(function(){setTimeout("$('div.message').fadeOut('slow');",1000)})
+    }); 
+    </script>
+    {/literal}
+</head>
+<body>
+    <div id="container">
+        <div id="account_function">
+            Hi, <strong>{$userName}</strong>.<!-- <a href="{$bPack_rootpath}user/modify" class="modify_account">修改帳號資訊</a>--><a href="{$bPack_rootpath}user/logout" class="logout">登出</a>
+        </div>
+        <div id="logo">
+            <img src="{$bPack_rootpath}public/img/logo.png" alt="Facekeeper" title="Facekeeper" />
+        </div>
+        
+        <div id="panel_container" class="rounded">
+            <div id="main_menu">
+                <ul>
+                    <li {if $pageModule eq 'report'}class="current"{/if}><a href="{$bPack_rootpath}report">成果總覽</a></li>
+                    <li {if $pageModule eq 'system'}class="current"{/if}><a href="{$bPack_rootpath}system">系統設定</a></li>
+                    <li {if $pageModule eq 'keyword'}class="current"{/if}><a href="{$bPack_rootpath}keyword">關鍵字管理</a></li>
+                </ul>
+            </div>
+            <div id="panel_content">

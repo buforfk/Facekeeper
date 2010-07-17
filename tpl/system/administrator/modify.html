@@ -1,0 +1,12 @@
+{include file="header.html"}
+{include file="system/menu.html"}
+<div id="main">
+<h2>管理員 {$username} 密碼更改</h2>
+<form method="post" action="{$bPack_rootpath}system/administrator/modify?id={$id}">
+    <p><img src="{$bPack_rootpath}public/img/key.png" />&nbsp新密碼：&nbsp;<input type="password"  name="password"/></p>
+    <p><img src="{$bPack_rootpath}public/img/key_go.png" />&nbsp新密碼確認：&nbsp;<input type="password"  name="password2"/></p>
+    <br />
+    <input type="submit" value="更改密碼" />        
+</form>
+</div>
+{include file="footer.html"}

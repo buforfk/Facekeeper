@@ -1,0 +1,30 @@
+{include file="header.html"}
+{include file="keyword/menu.html"}
+<div id="main">
+<h2>查詢詞彙列表</h2>
+        {if $NotifyMessage}
+            <div class="message">{$NotifyMessage.message}</div>
+        {/if}
+    
+        <table class="sortable">
+            <thead>
+            <tr>
+                <th width="100">編號</th>
+                <th>關鍵字</th>
+                <th>動作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {section name=sec1 loop=$item}
+            <tr id="row-{$item[sec1].id}">
+                <td>{$item[sec1].id}</td>
+                <td>{$item[sec1].key}</td>
+                <td><a href="{$bPack_rootpath}keyword/delete?id={$item[sec1].id}" class="delete">刪除</a><!--&nbsp;&nbsp;<a href="{$bPack_rootpath}keyword/modify?c={$c}&amp;id={$item[sec1].id}" class="modify">修改</a>--></td>
+            </tr>
+            {/section}
+            </tbody>
+        </table>
+        
+    </form>
+</div>
+{include file="footer.html"}

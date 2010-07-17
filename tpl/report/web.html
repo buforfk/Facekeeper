@@ -1,0 +1,32 @@
+{include file="header.html"}
+{include file="report/menu.html"}
+<div id="main">
+<h2>網址次數累積表(前五十)</h2>
+
+{if $NotifyMessage}
+    <div class="message">{$NotifyMessage.message}</div>
+{/if}
+
+<table class="sortable" id="youtube">
+    <thead>
+    <tr>
+        <th>網址</th>
+        <th>標題</th>
+        <th width="80">累積次數</th>
+        <th width="80">動作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {section name=sec1 loop=$result}
+    <tr id="row-{$result[sec1].hash}">
+        <td><a href="{$result[sec1].url}">{$result[sec1].url|truncate:40}</a></td>
+        <td><a href="{$bPack_rootpath}tmp/Page_store/{$result[sec1].pid}/{$result[sec1].hash}.html">{$result[sec1].title|truncate:40}</a></td>
+        <td>{$result[sec1].count}</td>
+        <td><a href="{$bPack_rootpath}report/web/delete?hash={$result[sec1].hash}" class="delete">刪除</a></td>
+    </tr>
+    {/section}
+    </tbody>
+</table>
+
+</div>
+{include file="footer.html"}

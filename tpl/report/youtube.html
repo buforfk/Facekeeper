@@ -1,0 +1,32 @@
+{include file="header.html"}
+{include file="report/menu.html"}
+<div id="main">
+<h2>Youtube 次數累積表</h2>
+
+{if $NotifyMessage}
+    <div class="message">{$NotifyMessage.message}</div>
+{/if}
+
+<table class="sortable" id="youtube">
+    <thead>
+    <tr>
+        <th width="120">影片</th>
+        <th>標題</th>
+        <th width="50">觀看</th>
+        <th width="80">動作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {section name=sec1 loop=$result}
+    <tr id="row-{$result[sec1].id}">
+        <td><a href="http://www.youtube.com/watch?v={$result[sec1].url}" rel="prettyPhoto" title="{$result[sec1].title}"><img src="http://i.ytimg.com/vi/{$result[sec1].url}/1.jpg" border="0" /></a><br /><span class="youtube_date">{$result[sec1].date}</span></td>
+        <td><a href="http://www.youtube.com/watch?v={$result[sec1].url}" rel="prettyPhoto" title="{$result[sec1].title}">{$result[sec1].title}</a></td>
+        <td>{$result[sec1].views}</td>
+        <td><a href="{$bPack_rootpath}report/youtube/delete?id={$result[sec1].id}" class="delete">刪除</a><!--&nbsp;&nbsp;<a href="{$bPack_rootpath}keyword/modify?c={$c}&amp;id={$item[sec1].id}" class="modify">修改</a>--></td>
+    </tr>
+    {/section}
+    </tbody>
+</table>
+
+</div>
+{include file="footer.html"}
