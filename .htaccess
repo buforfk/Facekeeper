@@ -1,0 +1,10 @@
+# 設定目前環境
+SetEnv APP_ENV development
+
+# 建立 Rewrite
+RewriteEngine On
+RewriteBase /Facekeeper/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /Facekeeper/index.php [L]
+
