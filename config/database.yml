@@ -1,0 +1,6 @@
+development:
+    adapter: bPack_DB_MySQL
+    name: repu
+    user: root
+    password: bewexos
+    host: localhost
