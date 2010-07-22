@@ -30,8 +30,9 @@ div.rounded {-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius:
 #panel_content #sub_menu {width:150px;  margin:10px; float:right; background:#efefef; padding:10px 2px;border:1px #cccccc solid;}
 #panel_content #sub_menu ul {list-style:none; }
 #panel_content #sub_menu ul li {margin:10px;}
+#panel_content #sub_menu.keyword > ul > li {margin:20px 10px;}
 
-#panel_content #sub_menu ul li ul {margin-left:10px;}
+#panel_content #sub_menu ul li ul {margin-left:-10px;}
 
 #panel_content #sub_menu a {text-decoration:none; color:#000000;}
 #panel_content #sub_menu a:hover {color:#999999;}

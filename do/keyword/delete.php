@@ -10,6 +10,6 @@ class keyword_delete extends Event
         $keyword_obj->delete($keyword_id);
         
         $this->notifyHelper->set('關鍵字「'.urldecode($data['keyword']).'」已刪除');
-        $this->go('keyword');
+        $this->go('keyword?t=' . $data['type']);
     }
 }

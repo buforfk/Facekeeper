@@ -2,10 +2,16 @@
 class Keyword extends bPack_DB_GenericObject
 {
     protected $_table = 'keywords';
-    
+    protected $_type = 1;
+
+    public function setType($type)
+    {
+        $this->_type = $type;
+    }
+
     public function getAll()
     {
-        $keywords = $this->_get("`id` > 0");
+        $keywords = $this->_get("`id` > 0 AND `type` = '".$this->_type."'");
         
         $keyword = array();
         foreach($keywords as $key)
@@ -19,6 +25,7 @@ class Keyword extends bPack_DB_GenericObject
     public function add($keyword)
     {
         $this->_setField('keyword',$keyword);
+        $this->_setField('type',$this->_type);
         
         return $this->_save();
     }

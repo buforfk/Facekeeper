@@ -19,8 +19,10 @@ class keyword_default extends Event
     
     public function defaultAction()
     {        
+        $type = $this->request->get('t',1);
+
         $keyword_obj = new Keyword($this->db);
-        
+        $keyword_obj->setType($type);
         $items = $keyword_obj->getAll();
         
         $this->view->assign('item',$items);

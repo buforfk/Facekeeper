@@ -21,6 +21,8 @@ class keyword_add extends Event
 
     public function defaultAction()
     {
+        $type = $this->request->get('t',1);
+        $this->view->assign('type', $type);
 	$this->view->output('keyword/add.html');
     }
 
@@ -33,7 +35,15 @@ class keyword_add extends Event
 
     protected function add_action($keywords)
     {
+        $type = $this->request->post('t',0);
+
+        if($type == 0)
+        {
+            $type = $this->request->get('t',1);
+        }
+
 	$keyword_obj = new Keyword($this->db);
+        $keyword_obj->setType($type);
 	$add_count = 0;
 
 	foreach ($keywords as $keyword)
@@ -46,7 +56,7 @@ class keyword_add extends Event
 	}
 
 	$this->notifyHelper->set('已新增 ' . $add_count . ' 個關鍵字');
-	$this->go('keyword/add');
+	$this->go('keyword/add?t='.$type);
     }
 
     public function add_upload()
