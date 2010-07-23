@@ -19,7 +19,7 @@ class system_source extends Event
     
     public function defaultAction()
     {
-        $source_lists = array('Google','Yahoo','Bing','Youtube');
+        $source_lists = array('Google','Yahoo','Bing','Youtube','Facebook','ptt');
         $source_list = array();
         foreach($source_lists as $source)
         {
