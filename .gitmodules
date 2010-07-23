@@ -1,3 +1,3 @@
 [submodule "lib/bPack"]
 	path = lib/bPack
-	url = git@github.com:bu/bPack.git
+	url = https://bu@github.com/bu/bPack.git
