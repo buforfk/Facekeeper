@@ -35,7 +35,6 @@ class report_youtube extends Event
 
         $this->view->assign('result' , $results);
 
-        $this->view->output('report/web.html');
         
         $this->view->output('report/youtube.html');
     }
