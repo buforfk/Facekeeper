@@ -15,7 +15,7 @@ db = db_conn.MySQL()
 FK_CONFIGS = FK_Foreman.readConfig(db)
 
 # DEBUG 時讓他不要檢查上次跑的時間
-db.execute("TRUNCATE `cron_running_logs`;")
+#db.execute("TRUNCATE `cron_running_logs`;")
 
 # 上一次是什麼時候跑的呢？
 last_run = db.execute("SELECT `start_time` FROM `cron_running_logs` ORDER BY `id` DESC LIMIT 1;").fetchone()
