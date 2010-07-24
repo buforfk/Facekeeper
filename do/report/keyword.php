@@ -19,8 +19,23 @@ class report_keyword extends Event
     
     public function defaultAction()
     {
+        $start = $this->request->get('page', 1 , bP_INT);
+
+        
+        $per = $this->config->get('pager.itemperpage');
+
+         $pager_object = new bPack_Pager();
+
+        $results_count = $this->db->query("SELECT count(*) as `count` FROM `result_keyword`;")->fetch(PDO::FETCH_ASSOC);
+        $pager_object->total(ceil($results_count['count'] / $per));
+        $pager_object->per($per);
+        $pager_object->current($start);
+        $start = ($start-1) * $per + 1;
+        $this->view->assign('pager', $pager_object->output(new bP_Pager_Decorator_Pagi));
+
+ 
         # 收錄資料統計
-        $results = $this->db->query("SELECT * FROM `result_keyword` ORDER BY `keyword_length` DESC LIMIT 50")->fetchAll(PDO::FETCH_ASSOC);
+        $results = $this->db->query("SELECT * FROM `result_keyword` ORDER BY `keyword_length` DESC LIMIT $start, $per")->fetchAll(PDO::FETCH_ASSOC);
 
         $this->view->assign('result' , $results);
 

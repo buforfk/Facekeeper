@@ -6,7 +6,9 @@
 {if $NotifyMessage}
     <div class="message">{$NotifyMessage.message}</div>
 {/if}
-
+<div class="pagination quotes">
+{$pager}
+</div>
 <table class="sortable">
     <thead>
     <tr>
@@ -27,6 +29,8 @@
     {/section}
     </tbody>
 </table>
-
+<div class="pagination quotes">
+{$pager}
+</div>
 </div>
 {include file="footer.html"}
