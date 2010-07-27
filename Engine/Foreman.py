@@ -26,13 +26,13 @@ if last_run != None:
     # 計算時間差是否超過所設定的間隔值
     execute_timedelta = datetime.datetime.now() - last_run["start_time"]
     execute_timedelta_seconds = execute_timedelta.days * 86400 + execute_timedelta.seconds
- 
+    
     # 如果超過，則再跑一次
     if execute_timedelta_seconds >= FK_CONFIGS["fetch.interval"] * 3600:
 	FK_Foreman.throwGrabWork(db, FK_CONFIGS["fetch.depth"]) 
 
     else:
-       db.execute("INSERT INTO `logs` SET `daemon` = 'FOREMAN', `message` = '因為離上次執行的時間還沒有大於間隔值("+str(execute_timedelta_seconds)+")，所以放棄';")
+       db.execute("INSERT INTO `logs` SET `daemon` = 'FOREMAN', `message` = '因為離上次執行的時間還沒有大於間隔值("+str(FK_CONFIGS["fetch.interval"])+")，所以放棄';")
 
 # 如果完全沒跑過
 else:
