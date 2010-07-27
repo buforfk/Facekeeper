@@ -32,7 +32,7 @@ if last_run != None:
 	FK_Foreman.throwGrabWork(db, FK_CONFIGS["fetch.depth"]) 
 
     else:
-       db.execute("INSERT INTO `logs` SET `daemon` = 'FOREMAN', `message` = '因為離上次執行的時間還沒有大於間隔值("+str(FK_CONFIGS["fetch.interval"])+")，所以放棄';")
+       db.execute("INSERT INTO `logs` SET `daemon` = 'FOREMAN', `message` = '因為離上次執行的時間還沒有大於間隔值("+str(execute_timedelta_seconds)+" / "+str(FK_CONFIGS["fetch.interval"] * 3600)+")，所以放棄';")
 
 # 如果完全沒跑過
 else:
