@@ -117,18 +117,26 @@ class Daemon_Process:
 
     def process(self, depth):
 	pid = self.registerCronProcess()
-    	keywords = self.db.execute("SELECT `keyword` FROM `keywords`").fetchall()
-	
+    	web_keywords = self.db.execute("SELECT `keyword` FROM `keywords` WHERE `type` = 1").fetchall()
+	youtube_keyword = self.db.execute("SELECT `keywords` FROM `keywords` WHERE`type` = 2")
+        
         # 動態組配的會放在這裡
 
-        # 每一個關鍵字
-	for keyword in keywords:
-            # 每一個搜尋引擎
-	    for SE in self.SE:
+        for SE in self.SE:
+            # 先判斷搜尋引擎是不是 Youtube / PTT / Facebook
+            # 他們要用不同的關鍵字組
+            if SE.typeName == 'Youtube':
+                loop_keyword = youtube_keyword
+            else:
+                loop_keyword = web_keywords
+
+            # 每一個關鍵字
+            for keyword in loop_keyword:
                 # 每一頁的深度
 		for i in range(int(depth)):
                     # 試著去 throw Task
 		    try:
                         self.gearman_client.dispatch_background_task("grabSEPage", {"pid": str(pid), "url": SE.generateURL(keyword, i + 1), "type": SE.typeName})
+                    # 如果有抓到例外情形，就回傳 RuntimeError 說明
                     except gearman.client.GearmanBaseClient.ServerUnavailable:
                         raise RuntimeError()
