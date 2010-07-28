@@ -1,0 +1,82 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+{literal}
+<style>
+body {text-align:center;}
+.result {width:98%;}
+.result th {background:#eeeeee;}
+.result tr td {background:#F1F1F1; font-size:12px;}
+.result tr:nth-child(even) td {background:#FFFFFF;}
+#container {width:98%;margin:0 auto;border:1px solid #cccccc;}
+#reportHead {background:#ddd;text-align:left;overflow:auto;padding:1em;}
+#reportHead span {display:block;float:right;}
+#reportFoot {background:#ddd;padding:1em;margin-top:1em;}
+#reportInfo {clear:both;text-align:left;}
+</style>
+{/literal}
+</head>
+<body>
+<div id="container">
+<div id="reportHead">
+<h1>Facekeeper 報表</h1>
+<span class="time">{$smarty.now|date_format:"%Y-%m-%d"} 製表</span>
+</div>
+
+<!--<div id="reportFacerate">
+<h2>Facerate 最高 50 筆</h2>
+<table>
+</table>
+</div>-->
+
+<div id="reportKeyword">
+<h2>關鍵字切合 最高 50 筆</h2>
+<table class="result"> 
+    <thead> 
+    <tr> 
+        <th width="300">網址</th> 
+        <th width="400">標題</th> 
+        <th width="200">切合關鍵字</th> 
+    </tr> 
+    </thead> 
+ <tbody> 
+        {section name=sec1 loop=$keyword_result}
+    <tr id="row-{$keyword_result[sec1].hash}">
+        <td><a href="{$keyword_result[sec1].url}">{$keyword_result[sec1].url|truncate:40}</a></td>
+        <td><a href="{$bPack_rootpath}tmp/Page_store/{$keyword_result[sec1].pid}/{$keyword_result[sec1].hash}.html">{$keyword_result[sec1].title|truncate:40}</a></td>
+        <td>{$keyword_result[sec1].keyword_length}({$keyword_result[sec1].keywords})</td>
+    </tr> 
+    {/section}
+    </tbody>    
+</table> 
+</div>
+
+<div id="reportCounting">
+<h2>次數統計最高 50 筆</h2>
+<table class="result"> 
+    <thead> 
+    <tr> 
+        <th width="400">網址</th> 
+        <th width="450">標題</th> 
+        <th width="50">累積次數</th> 
+        <!--<th width="80">動作</th>--> 
+    </tr> 
+    </thead>
+<tbody> 
+{section name=sec2 loop=$counting_result}
+    <tr id="row-{$counting_result[sec2].hash}">
+        <td><a href="{$counting_result[sec2].url}">{$counting_result[sec2].url|truncate:40}</a></td>
+        <td><a href="{$bPack_rootpath}tmp/Page_store/{$counting_result[sec2].pid}/{$counting_result[sec2].hash}.html">{$counting_result[sec2].title|truncate:40}</a></td>
+        <td>{$counting_result[sec2].count}</td>
+    </tr>
+{/section}
+</tbody> 
+    </table> 
+</div>
+<div id="reportFoot">
+(c) Facekeeper 2010.
+</div>
+</div>
+
+</body>
+</html>
