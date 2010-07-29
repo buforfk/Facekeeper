@@ -20,7 +20,7 @@ class Fans:
         return "http://www.facebook.com/search/?q=" + urllib.quote(keyword.decode("raw_unicode_escape").encode("utf-8")) + "&o=65&s=" + str(start)
 
     def parse(self, text):
-        pattern = '<td class="UIFullListing_InfoValue UIFullListing_FirstInfoValue"><a href="(.*?)ref=search" onclick=".*?">(.*?)</a></td>'
+        pattern = '<td class="UIFullListing_InfoValue UIFullListing_FirstInfoValue"><a href="(.*?)\?ref=search" onclick=".*?">(.*?)</a></td>'
         return re.findall(pattern, text)
 
 class Group:
