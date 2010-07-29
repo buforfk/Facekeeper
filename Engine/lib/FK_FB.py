@@ -83,7 +83,8 @@ class Parser:
         file_text = ''.join(fs).replace('<\/','</').replace('\\\"','"').decode('raw_unicode_escape')
  
         directory = self.fetcher.parse(file_text)
-
+        print directory
+        sys.exit()
         # 分析完成後，寫入資料庫
         self.writeToDB(directory)
 
