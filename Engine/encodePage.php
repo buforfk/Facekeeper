@@ -36,7 +36,7 @@ function encodePage($job)
                 $charset_replacement = $charset;
             }
 
-            @file_put_contents("../tmp/Page_store/" . $job_info->pid . "/" . $job_info->url .".html", str_replace($charset_replacement,'utf-8',iconv($charset, 'utf-8', $file)));
+            @file_put_contents("/var/www/Facekeeper/tmp/Page_store/" . $job_info->pid . "/" . $job_info->url .".html", str_replace($charset_replacement,'utf-8',iconv($charset, 'utf-8', $file)));
         }
 
         $db->exec("INSERT INTO `logs` SET `daemon` = 'ENCODEPAGE', `message` = '".$job_info->url."(".$charset.")', `time` = NOW();");
