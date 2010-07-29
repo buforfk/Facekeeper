@@ -1,7 +1,7 @@
 {include file="header.html"}
 {include file="report/menu.html"}
 <div id="main">
-<h2>Facebook 頁面累積關鍵字表</h2>
+<h2>內文切合關鍵字累積表</h2>
 
 {if $NotifyMessage}
     <div class="message">{$NotifyMessage.message}</div>
@@ -24,7 +24,7 @@
         <td><a href="{$result[sec1].url}">{$result[sec1].url|truncate:40}</a></td>
         <td><a href="{$bPack_rootpath}tmp/Page_store/{$result[sec1].pid}/{$result[sec1].hash}.html">{$result[sec1].title|truncate:40}</a></td>
         <td>{$result[sec1].keyword_length}({$result[sec1].keywords})</td>
-        <td><a href="{$bPack_rootpath}report/facebook/delete?hash={$result[sec1].hash}" class="delete">刪除</a></td>
+        <td><a href="{$bPack_rootpath}report/keyword/delete?hash={$result[sec1].hash}" class="delete">刪除</a></td>
     </tr>
     {/section}
     </tbody>
