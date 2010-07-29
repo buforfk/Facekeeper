@@ -104,3 +104,29 @@ color: #FF0000;
 {
     color:#000;
 }
+
+.system_facebook .renew
+{
+    color:green;
+    background: transparent url('../img/arrow_refresh.png') no-repeat left top;
+    padding-left:20px;
+    text-decoration: none;
+}
+
+.system_facebook .add_track
+{
+   color:green;
+   background: transparent url('../img/eye.png') no-repeat left top;
+   padding-left:20px;
+   text-decoration: none;
+}
+
+.system_facebook .remove_track
+{
+    color:red;
+    background: transparent url('../img/eye_delete.png') no-repeat left top;
+    padding-left:20px;
+    text-decoration: none;
+}
+
+

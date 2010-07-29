@@ -1,0 +1,32 @@
+{include file="header.html"}
+{include file="system/menu.html"}
+<div id="main" class="system_facebook">
+    <h2>Facebook 抓取設定</h2>
+    {if $NotifyMessage}
+        <div class="message">{$NotifyMessage.message}</div>
+    {/if}
+
+    <p><a href="{$bPack_rootpath}system/facebook/renew_list" class="renew">更新粉絲、社群清單</a></p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>類別</th>
+                <th>標題</th>
+                <th>網址</th>
+                <th>動作</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {section name=sec1 loop=$directory}
+            <tr>
+                <td>{if $directory[sec1].type eq 0}群組{else}粉絲{/if}</td>
+                <td>{$directory[sec1].title}</td>
+                <td>{$directory[sec1].url}</td>
+                <td>{if $directory[sec1].tracking eq 0}<a href="{$bPack_rootpath}system/facebook/add_track?id={$directory[sec1].id}" class="add_track"></a>{else}<a href="{$bPack_rootpath}system/facebook/remove_track?id={$directory[sec1].id}" class="remove_track"></a>{/if}</td>
+            </tr>
+            {/section}
+    </table>
+</div>
+{include file="footer.html"}
