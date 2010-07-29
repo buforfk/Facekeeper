@@ -36,7 +36,6 @@ class report_facebook extends Event
  
         # 收錄資料統計
         $results = $this->db->query("SELECT * FROM `result_pool` WHERE `source` = 1 ORDER BY `keyword_length` DESC LIMIT $start, $per")->fetchAll(PDO::FETCH_ASSOC);
-        echo "SELECT * FROM `result_pool` WHERE `source` = 1 ORDER BY `keyword_length` DESC LIMIT $start, $per";
 
         $this->view->assign('result' , $results);
 
