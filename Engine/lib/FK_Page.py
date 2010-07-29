@@ -35,7 +35,7 @@ class Grabber:
 	self.rs = urllib2.urlopen(self.request_obj).read()
 
     def saveIntoFile(self, job):
-        path = os.path.realpath("../tmp/Page_store/" + job["pid"])
+        path = os.path.realpath("/var/www/Facekeeper/tmp/Page_store/" + job["pid"])
         
         if not os.path.isdir(path):
 	    os.mkdir(path)

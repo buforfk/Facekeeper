@@ -51,12 +51,12 @@ class Grabber:
 
     def saveIntoFile(self, job):
 
-        dirPath = os.path.realpath("../tmp/SE_store")
+        dirPath = os.path.realpath("/var/www/Facekeeper/tmp/SE_store")
 
 	if not os.path.isdir(dirPath):
 	    os.mkdir(dirPath)
 
-	path = os.path.realpath("../tmp/SE_store/"+job["pid"])
+	path = os.path.realpath("/var/www/Facekeeper/tmp/SE_store/"+job["pid"])
         
         if not os.path.isdir(path):
 	    os.mkdir(path)
