@@ -53,7 +53,7 @@ def callWorkers():
         
         for work in ideal_works:
             print work
-            os.system("python "+work+".py &")
+            os.system("python /var/www/Facekeeper/Engine/"+work+".py &")
 
 
 # throwGrabWork
