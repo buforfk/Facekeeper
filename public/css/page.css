@@ -111,6 +111,7 @@ color: #FF0000;
     background: transparent url('../img/arrow_refresh.png') no-repeat left top;
     padding-left:20px;
     text-decoration: none;
+    text-align: right;
 }
 
 .system_facebook .add_track
