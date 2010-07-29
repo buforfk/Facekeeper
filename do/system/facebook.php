@@ -51,7 +51,7 @@ class system_facebook extends Event
 
     public function renew_list()
     {
-        $sql = "SELECT `keyword` FROM `keywords` WHERE `type` = 3;"
+        $sql = "SELECT `keyword` FROM `keywords` WHERE `type` = 3;";
         $keywords = $this->db->query($sql)->fetchAll();
         
         $client = new GearmanClient();
