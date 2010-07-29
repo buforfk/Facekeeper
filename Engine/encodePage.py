@@ -8,4 +8,4 @@
 import os
 
 # 啟動相對應的 PHP 程式
-os.system("php encodePage.php &")
+os.system("php /var/www/Facekeeper/Engine/encodePage.php &")
