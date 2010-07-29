@@ -20,7 +20,21 @@ class system_facebook extends Event
     
     public function defaultAction()
     {
-        $sql = "SELECT * FROM `fb_directories` ORDER BY `tracking` DESC LIMIT 0,50;";
+        $start = $this->request->get('page', 1 , bP_INT);
+        
+        $per = $this->config->get('pager.itemperpage');
+
+         $pager_object = new bPack_Pager();
+
+        $results_count = $this->db->query("SELECT count(*) as `count` FROM `fb_directories`;")->fetch(PDO::FETCH_ASSOC);
+        $pager_object->total(ceil($results_count['count'] / $per));
+        $pager_object->per($per);
+        $pager_object->current($start);
+        $start = ($start-1) * $per + 1;
+        $this->view->assign('pager', $pager_object->output(new bP_Pager_Decorator_Pagi));
+
+        # fetch
+        $sql = "SELECT * FROM `fb_directories` ORDER BY `tracking` DESC, `type` ASC LIMIT $start,$per;";
 
         $directories = $this->db->query($sql)->fetchAll();
 
