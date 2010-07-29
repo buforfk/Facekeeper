@@ -90,6 +90,6 @@ class Parser:
 
     def writeToDB(self, directory):
         for item in directory:
-            print "INSERT INTO `fb_directories` SET `url` = '"+item["url"].replace('\\/','/').replace('&amp;','') + "', `title` = '"+item["title"].encode('utf-8')+"', `type` = '"+self.fetcher.type_id+"', `tracking` = 0;"
+            print "INSERT INTO `fb_directories` SET `url` = '"+item["url"].replace('\\/','/').replace('&amp;','') + "', `title` = '"+item["title"].encode('utf-8')+"', `type` = '"+str(self.fetcher.type_id)+"', `tracking` = 0;"
             sys.exit()
             #self.db.execute("INSERT INTO `fb_directories` SET `url` = '"+item["url"].replace('\\/','/').replace('&amp;','') + "', `title` = '"+item["title"].encode('utf-8')+"', `type` = '"+self.fetcher.type_id+"', `tracking` = 0;")            
