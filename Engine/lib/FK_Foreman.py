@@ -118,7 +118,7 @@ class Daemon_Process:
     def process(self, depth):
 	pid = self.registerCronProcess()
     	web_keywords = self.db.execute("SELECT `keyword` FROM `keywords` WHERE `type` = 1").fetchall()
-	youtube_keyword = self.db.execute("SELECT `keywords` FROM `keywords` WHERE`type` = 2")
+	youtube_keyword = self.db.execute("SELECT `keyword` FROM `keywords` WHERE`type` = 2")
         
         # 動態組配的會放在這裡
 
