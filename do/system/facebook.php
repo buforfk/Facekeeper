@@ -45,7 +45,7 @@ class system_facebook extends Event
 
     public function add_track()
     {
-        $id = $this->request('id', 0, bP_INT);
+        $id = $this->request->get('id', 0, bP_INT);
 
         $this->db->exec("UPDATE `fb_directories` SET `tracking` = 1 WHERE `id` = '$id';");
 
@@ -55,7 +55,7 @@ class system_facebook extends Event
 
     public function remove_track()
     {
-        $id = $this->request('id', 0, bP_INT);
+        $id = $this->request->get('id', 0, bP_INT);
 
         $this->db->exec("UPDATE `fb_directories` SET `tracking` = 0 WHERE `id` = '$id';");
 
