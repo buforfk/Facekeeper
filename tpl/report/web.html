@@ -22,7 +22,7 @@
     {section name=sec1 loop=$result}
     <tr id="row-{$result[sec1].hash}">
         <td><a href="{$result[sec1].url}">{$result[sec1].url|truncate:40}</a></td>
-        <td><a href="{$bPack_rootpath}tmp/Page_store/{$result[sec1].pid}/{$result[sec1].hash}.html">{$result[sec1].title|truncate:40}</a></td>
+        <td><a href="{$bpack_rootpath}tmp/page_store/{$result[sec1].pid}/{$result[sec1].hash}.html">{$result[sec1].title|truncate:40}</a></td>
         <td>{$result[sec1].count}</td>
         <td><a href="{$bPack_rootpath}report/web/delete?hash={$result[sec1].hash}" class="delete">刪除</a></td>
     </tr>

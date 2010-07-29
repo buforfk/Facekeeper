@@ -73,11 +73,13 @@ class system_facebook extends Event
         
         foreach($keywords as $keyword)
         {
-            $job_info = array('keyword' => $keyword);
-
-            $client->doBackground('FB_fetchFans', json_encode($job_info));
-            $client->doBackground('FB_fetchGroup', json_encode($job_info));
+            $job_keyword[]= $keyword['keyword'];
         }
+
+        $job_info = array('keyword' => $job_keyword);
+
+        $client->doBackground('FB_fetchFans', json_encode($job_info));
+        $client->doBackground('FB_fetchGroup', json_encode($job_info));
 
         $this->notifyHelper->set('更新工作已開始進行，請稍等片刻後再回來看看。');
         $this->go('system/facebook');
