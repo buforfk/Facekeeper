@@ -83,8 +83,6 @@ class Parser:
         file_text = ''.join(fs).replace('<\/','</').replace('\\\"','"').decode('raw_unicode_escape')
  
         directory = self.fetcher.parse(file_text)
-        print directory
-        sys.exit()
 
         # 分析完成後，寫入資料庫
         self.writeToDB(directory)
@@ -93,4 +91,4 @@ class Parser:
 
     def writeToDB(self, directory):
         for item in directory:
-            self.db.execute("INSERT INTO `fb_directories` SET `url` = '"+item["url"]+"', `title` = '"+item["title"]+"', `type` = '"+self.fetcher.type_id+"', `tracking` = 0;")            
+            self.db.execute("INSERT INTO `fb_directories` SET `url` = '"+item["url"].replace('\\/','/').replace('&amp;','') + "', `title` = '"+item["title"].encode('utf-8')+"', `type` = '"+self.fetcher.type_id+"', `tracking` = 0;")            
