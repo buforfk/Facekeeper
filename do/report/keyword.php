@@ -30,7 +30,7 @@ class report_keyword extends Event
         $pager_object->total(ceil($results_count['count'] / $per));
         $pager_object->per($per);
         $pager_object->current($start);
-        $start = ($start-1) * $per + 1;
+        $start = ($start-1) * $per ;
         $this->view->assign('pager', $pager_object->output(new bP_Pager_Decorator_Pagi));
 
  
