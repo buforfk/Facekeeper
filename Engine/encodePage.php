@@ -16,7 +16,7 @@ function encodePage($job)
     $db->exec("SET NAMES 'utf8';");
 
     $job_info = json_decode(str_replace("'",'"',str_replace("u'","'",$job->workload())));
-    $file =  file_get_contents("../tmp/Page_store/" . $job_info->pid . "/" . $job_info->url .".html");
+    $file =  file_get_contents("/var/www/Facekeeper/tmp/Page_store/" . $job_info->pid . "/" . $job_info->url .".html");
 
     preg_match('/charset=(.*?)"/', $file, $matches);
 

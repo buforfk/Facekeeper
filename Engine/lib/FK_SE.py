@@ -50,17 +50,17 @@ class Grabber:
 	self.rs = urllib2.urlopen(self.request_obj).read()
 
     def saveIntoFile(self, job):
-
+        # 如果沒有 SE_store 則建立
         dirPath = os.path.realpath("/var/www/Facekeeper/tmp/SE_store")
 
 	if not os.path.isdir(dirPath):
 	    os.mkdir(dirPath)
-
+        # 如果沒有 SE_store/%pid% 則建立
 	path = os.path.realpath("/var/www/Facekeeper/tmp/SE_store/"+job["pid"])
         
         if not os.path.isdir(path):
 	    os.mkdir(path)
-	
+	# 寫入檔案
         fs = open(path + "/" + self.hashobj.hexdigest() + ".html","w+")
 	
 	fs.write(self.rs)
@@ -81,7 +81,7 @@ class Parser:
     def parse(self, job):
 	job_content = eval(job.arg)
 
-	f = open("../tmp/SE_store/" + job_content["pid"] + "/" + job_content["url"] + ".html")
+	f = open("/var/www/Facekeeper/tmp/SE_store/" + job_content["pid"] + "/" + job_content["url"] + ".html")
 	fs = f.readlines()
 	file_text = ''.join(fs);
         SE = self.chooseSE(job_content["type"])

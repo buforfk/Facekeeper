@@ -65,7 +65,7 @@ class Parser:
     def parse(self,job):
 	job_content = eval(job.arg)
 
-	f = open("../tmp/Page_store/" + job_content["pid"] + "/" + job_content["url"] + ".html")
+	f = open("/var/www/Facekeeper/tmp/Page_store/" + job_content["pid"] + "/" + job_content["url"] + ".html")
 	fs_list = f.readlines()
 	fs = ''.join(fs_list)
         f.close()
