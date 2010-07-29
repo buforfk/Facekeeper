@@ -50,6 +50,6 @@ class report_facebook extends Event
 
         $this->notifyHelper->set('[內部編號：'.$hash.']的項目已自結果集內刪除');
 
-        $this->go('report/keyword');
+        $this->go('report/facebook');
     }
 }
