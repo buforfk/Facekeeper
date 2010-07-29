@@ -6,4 +6,4 @@
 
 import sys
 
-sys.path.append('lib');
+sys.path.append('/var/www/Facekeeper/Engine/lib');
