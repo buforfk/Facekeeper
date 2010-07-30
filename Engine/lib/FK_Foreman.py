@@ -9,7 +9,7 @@ import gearman, sys, os
 
 import FK_SearchEngine
 
-ideal_works = ["grabSEPage", "parseSEPage","saveSELink","grabPage","encodePage","matchKeyword", "grabVidInfo"]
+ideal_works = ["grabSEPage", "parseSEPage","saveSELink","grabPage","encodePage","matchKeyword", "grabVidInfo","FB_fetchFans","FB_fetchGroup","FB_parsePage","FB_grabPage"]
 
 # readConfig
 # 讀取存在資料庫的設定值，並把他們變成一個 dict 方便存取
