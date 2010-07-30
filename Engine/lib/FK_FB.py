@@ -90,5 +90,4 @@ class Parser:
 
     def writeToDB(self, directory):
         for item in directory:
-            print item[1]
-            self.db.execute( "INSERT INTO `fb_directories` SET `url` = '" + item[0].replace('\\/','/').replace('&amp;','') + "', `title` = '" + item[1].encode("utf-8") + "', `type` = '" + str(self.fetcher.type_id) + "', `tracking` = 0;")            
+            self.db.execute( "INSERT INTO `fb_directories` SET `url` = '" + item[0].replace('\\/','/').replace('&amp;','') + "', `title` = '" + item[1] + "', `type` = '" + str(self.fetcher.type_id) + "', `tracking` = 0;")            
