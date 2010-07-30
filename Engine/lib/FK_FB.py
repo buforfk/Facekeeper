@@ -8,7 +8,6 @@ import gearman, urllib, re, db_conn, FK_Foreman, sys
 
 class Fans:
     def __init__(self):
-        print "Fans()"
         self.type_id = 1
 
     def generateURL(self, keyword, depth):
@@ -25,7 +24,6 @@ class Fans:
 
 class Group:
     def __init__(self):
-        print "Group()"
         self.type_id = 0
 
     def generateURL(self, keyword, depth):
@@ -90,4 +88,27 @@ class Parser:
 
     def writeToDB(self, directory):
         for item in directory:
-            self.db.execute( "INSERT INTO `fb_directories` SET `url` = '" + item[0].replace('\\/','/').replace('&amp;','') + "', `title` = '" + item[1] + "', `type` = '" + str(self.fetcher.type_id) + "', `tracking` = 0;")            
+            self.db.execute( "INSERT INTO `fb_directories` SET `url` = '" + item[0].replace('\\/','/').replace('&amp;','') + "', `title` = '" + item[1] + "', `type` = '" + str(self.fetcher.type_id) + "', `tracking` = 0;")           
+
+class Encoder:
+    def __init__(self):
+        self.db = db_conn.MySQL()
+        self.gearman_client = gearman.GearmanClient(["127.0.0.1"])
+
+    def encode(self, job):
+        job_content = eval(job.arg)
+
+        fs = open("/var/www/Facekeeper/tmp/Page_store/"+job_content["pid"]+"/"+job_content["url"]+".html")
+        fs_list = fs.readlines()
+        fs_text = ''.join(fs_list)
+        fs_text = fs_text.decode("raw_unicode_escape").encode("utf-8")
+        fs.close()
+        
+
+        fs = open("/var/www/Facekeeper/tmp/Page_store/"+job_content["pid"]+"/"+job_content["url"]+".html","w")
+        fs.write(fs_text)
+        fs.close()
+
+        self.db.execute("INSERT INTO `logs` SET `daemon` = 'FK_FB:Encoder', `message` = '"+job_content["url"]+" 成功轉換', `time` = NOW();")
+
+        self.gearman_client.dispatch_background_task("matchKeyword", job_content)

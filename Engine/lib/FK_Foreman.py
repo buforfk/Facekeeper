@@ -5,11 +5,11 @@
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
 # 引入必要的 Library
-import gearman, sys, os
+import gearman, sys, os, hashlib
 
 import FK_SearchEngine
 
-ideal_works = ["grabSEPage", "parseSEPage","saveSELink","grabPage","encodePage","matchKeyword", "grabVidInfo","FB_fetchFans","FB_fetchGroup","FB_parsePage","FB_grabPage"]
+ideal_works = ["grabSEPage", "parseSEPage","saveSELink","grabPage","encodePage","matchKeyword", "grabVidInfo","FB_fetchFans","FB_fetchGroup","FB_parsePage","FB_grabPage","FB_encodePage"]
 
 # readConfig
 # 讀取存在資料庫的設定值，並把他們變成一個 dict 方便存取
@@ -118,9 +118,20 @@ class Daemon_Process:
     def process(self, depth):
 	pid = self.registerCronProcess()
     	web_keywords = self.db.execute("SELECT `keyword` FROM `keywords` WHERE `type` = 1").fetchall()
-	youtube_keyword = self.db.execute("SELECT `keyword` FROM `keywords` WHERE`type` = 2")
+	youtube_keyword = self.db.execute("SELECT `keyword` FROM `keywords` WHERE`type` = 2").fetchall()
+	facebook_pages = self.db.execute("SELECT `title`,`url` FROM `fb_pool`;").fetchall()
         
         # 動態組配的會放在這裡
+
+        # Facebook  
+        self.hashobj = hashlib.new('sha1')
+        for page in facebook_pages:
+            self.hashobj.update(page["url"])
+            page_hash = self.hashobj.hexdigest()
+
+            self.db.execute("INSERT INTO `result_pool` SET `pid` = '" + str(pid) + "',`hash` = '" + self.hashobj.hexdigest() + "',`url` = '" + page["url"] + "', `title` = '" + page["title"] + "',`source` = 1, `time` = NOW();")
+
+            self.gearman_client.dispatch_background_task("grabPage",{"pid":str(pid), "url": page["url"], "type": 1, "hash":page_hash})
 
         for SE in self.SE:
             # 先判斷搜尋引擎是不是 Youtube / PTT / Facebook

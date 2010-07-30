@@ -4,7 +4,7 @@
 # Facekeeper v1.0
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
-import gearman,urllib2,datetime,hashlib,os,re,itertools
+import gearman,urllib2,datetime,hashlib,os,re,itertools,sys
 
 class Grabber:
     def __init__(self):
@@ -46,8 +46,12 @@ class Grabber:
 	fs.close()
 
     def throwAnaJob(self, job):
-	self.gearman_client = gearman.GearmanClient(["127.0.0.1"])		
-	self.gearman_client.dispatch_background_task("encodePage", {"pid": job["pid"] , "url": job["hash"]})
+	self.gearman_client = gearman.GearmanClient(["127.0.0.1"])
+
+        if job["type"] == 1:
+            self.gearman_client.dispatch_background_task("FB_encodePage", {"pid": job["pid"] , "url": job["hash"]})
+        else:
+            self.gearman_client.dispatch_background_task("encodePage", {"pid": job["pid"] , "url": job["hash"]})
 
 #
 #
@@ -65,6 +69,8 @@ class Parser:
     def parse(self,job):
 	job_content = eval(job.arg)
 
+        print job_content["url"]
+
 	f = open("/var/www/Facekeeper/tmp/Page_store/" + job_content["pid"] + "/" + job_content["url"] + ".html")
 	fs_list = f.readlines()
 	fs = ''.join(fs_list)
@@ -80,4 +86,4 @@ class Parser:
         
         self.db.execute("UPDATE `result_pool` SET `keyword_length` = '" + str(len(keyword_matched)) + "', `keywords` = '" + matched_keywords + "' WHERE `hash` = '" + job_content["url"] + "';")
 	
-        self.db.execute("INSERT INTO `logs` SET `daemon` = 'GRABPAGE', `message` = '" + str(job_content["url"]) + " ("+str(len(keyword_matched))+")', `time` = NOW();")
+        self.db.execute("INSERT INTO `logs` SET `daemon` = 'matchKeyword', `message` = '" + str(job_content["url"]) + " ("+str(len(keyword_matched))+")', `time` = NOW();")

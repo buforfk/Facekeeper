@@ -14,34 +14,26 @@ class Grabber:
         self.db = db_conn.MySQL()
 
     def grab(self, job):
-	#self.db.execute("INSERT INTO `logs` SET `daemon` = 'Grabber', `message` = 'grab_enter', `time` = NOW();")
-	
 	job_content = eval(job.arg)
-	
-	#self.db.execute("INSERT INTO `logs` SET `daemon` = 'Grabber', `message` = 'grab_job_loaded', `time` = NOW();")	
 	
 	self.request_obj = urllib2.Request(job_content["url"])
 	self.hashobj.update(job_content["url"])
 	
-	#self.db.execute("INSERT INTO `logs` SET `daemon` = 'Grabber', `message` = 'grab_url_fetched', `time` = NOW();")
 	# 設定標頭
 	self.setupHeader(job_content["type"])
-	#self.db.execute("INSERT INTO `logs` SET `daemon` = 'Grabber', `message` = 'grab_header_set', `time` = NOW();")
 	# 抓取頁面
 	self.getResult()
-	#self.db.execute("INSERT INTO `logs` SET `daemon` = 'Grabber', `message` = 'grab_result_got', `time` = NOW();")
 	# 儲存頁面
 	self.saveIntoFile(job_content)
-	#self.db.execute("INSERT INTO `logs` SET `daemon` = 'Grabber', `message` = 'grab_file_saved', `time` = NOW();")
 	# throw Ana job
 	self.throwAnaJob(job_content)
-	#self.db.execute("INSERT INTO `logs` SET `daemon` = 'Grabber', `message` = 'grab_next_work_threw', `time` = NOW();")
 	# 列印處理完成
         self.db.execute("INSERT INTO `logs` SET `daemon` = 'GRABSEPAGE', `message` = '" + self.hashobj.hexdigest() + "', `time` = NOW();")
 
     def setupHeader(self, j_type):
 	if j_type == 'Yahoo':
 	    self.request_obj.add_header("Accept-Language","zh-TW")
+
 	self.request_obj.add_header("Accept","application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5")
 	self.request_obj.add_header("Accept-Charset","ISO-8859-1,utf-8;q=0.7,*;q=0.7")
 	self.request_obj.add_header("User-Agent","Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.38 Safari/533.4")
@@ -117,7 +109,7 @@ class Parser:
 
 
             self.gearman_client.dispatch_background_task("saveSELink", {"pid": str(pid), "id": str(result_temp["LAST_INSERT_ID()"])}) 
-	    self.gearman_client.dispatch_background_task("grabPage", {"pid": str(pid), "url": link[0] ,"hash": result_temp2["hash"] }) 
+	    self.gearman_client.dispatch_background_task("grabPage", {"pid": str(pid), "url": link[0] ,"hash": result_temp2["hash"], "type": "0" }) 
 
             self.db.execute("INSERT INTO `logs` SET `daemon` = 'PARSESEPAGE', `message` = '" + str(link[0]) + "(" + str(result_temp["LAST_INSERT_ID()"]) + ")" + "', `time` = NOW();")
 
