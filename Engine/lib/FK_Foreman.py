@@ -121,7 +121,7 @@ class Daemon_Process:
 
 	pid = self.registerCronProcess()
     	web_keywords = self.db.execute("SELECT `keyword` FROM `keywords` WHERE `type` = 1").fetchall()
-	youtube_keyword = self.db.execute("SELECT `keyword` FROM `keywords` WHERE`type` = 2").fetchall()
+	youtube_keywords = self.db.execute("SELECT `keyword` FROM `keywords` WHERE `type` = 2").fetchall()
 	facebook_pages = self.db.execute("SELECT `title`,`url` FROM `fb_pool`;").fetchall()
         
         # 動態組配的會放在這裡
@@ -152,8 +152,8 @@ class Daemon_Process:
 
         # PTT
         if FK_CONFIGS["ptt.enable"] == "1":
-            os.system("./var/www/Facekeeper/Engine/PTT/setupenv.sh &")
-            os.system("./var/www/Facekeeper/Engine/PTT/run.sh > /var/www/tmp/Facekeeper/tmp/PTT.log &")
+            os.system("/var/www/Facekeeper/Engine/PTT/setupenv.sh &")
+            os.system("/var/www/Facekeeper/Engine/PTT/run.sh > /var/www/Facekeeper/tmp/PTT.log &")
 
 
         # Facebook
@@ -173,7 +173,7 @@ class Daemon_Process:
             # 先判斷搜尋引擎是不是 Youtube / PTT / Facebook
             # 他們要用不同的關鍵字組
             if SE.typeName == 'Youtube':
-                loop_keyword = youtube_keyword
+                loop_keyword = youtube_keywords
             else:
                 loop_keyword = web_keywords
 
