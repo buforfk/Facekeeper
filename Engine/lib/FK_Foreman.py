@@ -5,7 +5,7 @@
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
 # 引入必要的 Library
-import gearman, sys, os, hashlib
+import gearman, sys, os, hashlib, datetime
 
 import FK_SearchEngine
 
@@ -127,8 +127,28 @@ class Daemon_Process:
         # 動態組配的會放在這裡
 
         # 報表
-        if FK_CONFIGS["report.enable"] == "1":
-            os.system("php /var/www/Facekeeper/Engine/generateReport.php")
+        # 上一次是什麼時候跑的呢？
+        last_run = self.db.execute("SELECT `start_time` FROM `cron_running_logs` WHERE `type` = 'REPORT' ORDER BY `id` DESC LIMIT 1;").fetchone()
+
+        # 如果不是沒跑過
+        if last_run != None:
+
+            # 計算時間差是否超過所設定的間隔值
+            execute_timedelta = datetime.datetime.now() - last_run["start_time"]
+            execute_timedelta_seconds = execute_timedelta.days * 86400 + execute_timedelta.seconds
+            
+            # 如果超過，則再跑一次
+            if execute_timedelta_seconds >= int(FK_CONFIGS["report.interval"]) * 86400:
+                if FK_CONFIGS["report.enable"] == "1":
+                    os.system("php /var/www/Facekeeper/Engine/generateReport.php")
+                    self.db.execute("INSERT INTO `cron_running_logs` SET `start_time` = NOW(),`type` = 'REPORT';")
+            else:
+               self.db.execute("INSERT INTO `logs` SET `daemon` = 'FOREMAN', `message` = '報表因為離上次執行的時間還沒有大於間隔值("+str(execute_timedelta_seconds)+" / "+str(int(FK_CONFIGS["report.interval"]) * 86400)+")，所以放棄生成', `time` = NOW();")
+        else:
+            if FK_CONFIGS["report.enable"] == "1":
+                os.system("php /var/www/Facekeeper/Engine/generateReport.php")
+                self.db.execute("INSERT INTO `cron_running_logs` SET `start_time` = NOW(),`type` = 'REPORT';")
+
 
         # PTT
         if FK_CONFIGS["ptt.enable"] == "1":
