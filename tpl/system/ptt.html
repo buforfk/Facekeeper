@@ -1,0 +1,44 @@
+{include file="header.html"}
+{include file="system/menu.html"}
+<div id="main" class="system_ptt">
+    <h2>PTT 抓取設定</h2>
+    {if $NotifyMessage}
+        <div class="message">{$NotifyMessage.message}</div>
+    {/if}
+    {if $status eq 1}
+    <p><a href="{$bPack_rootpath}system/ptt/disable" onclick="return confirm('您是否確定停用PTT功能？(您的設定將不會消失)');" style="color:#FF0000; text-decoration:none;"><img src="{$bPack_rootpath}public/img/ptt_delete.png" border="0" />&nbsp;停用 PTT 功能</a></p>
+    <br />
+    <h3>關注版面列表</h3>
+    <br />
+    <form action="{$bPack_rootpath}system/ptt/add" method="post">
+    	版面名稱：<input type="text" name="board" size="20" />&nbsp;&nbsp;<input type="submit" value="新增" />
+    </form>
+    <br />
+<div class="pagination quotes">
+    {$pager}
+ </div>
+ <table class="sortable">
+        <thead>
+            <tr>
+                <th>版面代號</th>
+                <th>動作</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {section name=sec1 loop=$board}
+            <tr>
+                <td>{$board[sec1].board}</td>
+                <td><a href="{$bPack_rootpath}system/ptt/remove?id={$board[sec1].id}" class="delete"></a></td>
+            </tr>
+            {/section}
+    </table>
+<div class="pagination quotes">
+    {$pager}
+</div>
+{else}
+    <p><a href="{$bPack_rootpath}system/ptt/enable" style="color:green; text-decoration:none;"><img src="{$bPack_rootpath}public/img/ptt.png" border="0" />&nbsp;啟用 PTT 功能</a></p>
+
+{/if}
+</div>
+{include file="footer.html"}
