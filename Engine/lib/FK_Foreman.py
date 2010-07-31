@@ -126,6 +126,16 @@ class Daemon_Process:
         
         # 動態組配的會放在這裡
 
+        # 報表
+        if FK_CONFIGS["report.enable"] == "1":
+            os.system("php /var/www/Facekeeper/Engine/generateReport.php")
+
+        # PTT
+        if FK_CONFIGS["ptt.enable"] == "1":
+            os.system("./var/www/Facekeeper/Engine/PTT/setupenv.sh &")
+            os.system("./var/www/Facekeeper/Engine/PTT/run.sh > /var/www/tmp/Facekeeper/tmp/PTT.log &")
+
+
         # Facebook
         if FK_CONFIGS["fb.enable"] == "1":
             self.hashobj = hashlib.new('sha1')
