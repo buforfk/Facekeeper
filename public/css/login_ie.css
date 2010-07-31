@@ -1,0 +1,12 @@
+#container {height:560px; width:400px;}
+#form_container {position:absolute; top:50%; left:0; margin:-180px 0 0 -250px;width:500px;}
+#logo {height:100px;}
+
+#login_form {height:50px; line-height:50px;}
+#login_form label {font-size:12px; font-family:Tahoma, Verdana, sans-serif; margin:5px; }
+#login_form input {line-height:16px;font-size:12px; width:100px; font-family:Tahoma, Verdana, sans-serif; margin:5px;border:1px solid #cccccc;}}
+#login_form input[type="submit"] {height:24px; line-height:20px;font-size:12px; width:80px; font-family:Tahoma, Verdana, sans-serif; margin:5px;}
+
+#login_form p.error {color:#FF0000;}
+#login_form p.msg {color:green;}
+#login_form p.status { font-size:12px; font-family:Tahoma, Verdana, sans-serif;  font-weight:700; }
