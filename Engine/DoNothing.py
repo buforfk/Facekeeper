@@ -9,7 +9,7 @@ import gearman
 def nothing():
     return 0
 
-ideal_works = ["grabSEPage", "parseSEPage","saveSELink","grabPage","encodePage","matchKeyword", "SE_Parser","grabVidInfo"]
+ideal_works = ["grabSEPage", "parseSEPage","saveSELink","grabPage","encodePage","matchKeyword", "grabVidInfo","FB_fetchFans","FB_fetchGroup","FB_parsePage","FB_grabPage","FB_encodePage"]
 
 worker = gearman.GearmanWorker(["127.0.0.1"])
 
