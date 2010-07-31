@@ -18,7 +18,7 @@ FK_CONFIGS = FK_Foreman.readConfig(db)
 #db.execute("TRUNCATE `cron_running_logs`;")
 
 # 上一次是什麼時候跑的呢？
-last_run = db.execute("SELECT `start_time` FROM `cron_running_logs` ORDER BY `id` DESC LIMIT 1;").fetchone()
+last_run = db.execute("SELECT `start_time` FROM `cron_running_logs` WHERE `type` = 'WEBGRAB' ORDER BY `id` DESC LIMIT 1;").fetchone()
 
 # 如果不是沒跑過
 if last_run != None:
