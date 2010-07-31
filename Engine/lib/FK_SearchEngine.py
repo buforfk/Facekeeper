@@ -33,7 +33,7 @@ class Google(Core):
         self.typeName = "Google"
     
     def singleAttrURL(self, keyword, start):
-	return "http://www.google.com/search?rls=zh-tw&" + urllib.urlencode({"q": "+" + keyword.encode("utf-8")})   + "&ie=utf-8&oe=utf-8&start=" + str((start - 1) * 10);
+	return "http://www.google.com/search?rls=zh-tw&" + urllib.urlencode({"q": "+" + keyword.encode("utf-8")})   + "&ie=utf-8&oe=utf-8&tbo=1&tbs=qdr:m&start=" + str((start - 1) * 10);
     
     def parse(self, txt):
 	pattern = '<h3 class="r"><a href="([^<]*)" class=l.*?>(.*?)<\/a>'
