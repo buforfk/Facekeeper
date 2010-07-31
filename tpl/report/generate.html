@@ -1,7 +1,9 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+<h1>Facekeeper 報表 [{$smarty.now|date_format:"%Y-%m-%d"}]</h1>
 {literal}
+
 <style>
 body {text-align:center;}
 .result {width:98%;}
@@ -22,12 +24,6 @@ body {text-align:center;}
 <h1>Facekeeper 報表</h1>
 <span class="time">{$smarty.now|date_format:"%Y-%m-%d"} 製表</span>
 </div>
-
-<!--<div id="reportFacerate">
-<h2>Facerate 最高 50 筆</h2>
-<table>
-</table>
-</div>-->
 
 <div id="reportKeyword">
 <h2>關鍵字切合 最高 50 筆</h2>
@@ -51,6 +47,28 @@ body {text-align:center;}
 </table> 
 </div>
 
+<div id="reportFacebook">
+<h2>Facebook 頁面關鍵字切合 最高 50 筆</h2>
+<table class="result"> 
+    <thead> 
+    <tr> 
+        <th width="300">網址</th> 
+        <th width="400">標題</th> 
+        <th width="200">切合關鍵字</th> 
+    </tr> 
+    </thead> 
+ <tbody> 
+        {section name=sec3 loop=$facebook_results}
+    <tr id="row-{$facebook_results[sec3].hash}">
+        <td><a href="{$facebook_results[sec3].url}">{$facebook_results[sec3].url|truncate:40}</a></td>
+        <td><a href="{$bPack_rootpath}tmp/Page_store/{$facebook_results[sec3].pid}/{$facebook_results[sec3].hash}.html">{$facebook_results[sec3].title|truncate:40}</a></td>
+        <td>{$facebook_results[sec3].keyword_length}({$facebook_results[sec3].keywords})</td>
+    </tr> 
+    {/section}
+    </tbody>    
+</table> 
+</div>
+
 <div id="reportCounting">
 <h2>次數統計最高 50 筆</h2>
 <table class="result"> 
@@ -67,7 +85,7 @@ body {text-align:center;}
     <tr id="row-{$counting_result[sec2].hash}">
         <td><a href="{$counting_result[sec2].url}">{$counting_result[sec2].url|truncate:40}</a></td>
         <td><a href="{$bPack_rootpath}tmp/Page_store/{$counting_result[sec2].pid}/{$counting_result[sec2].hash}.html">{$counting_result[sec2].title|truncate:40}</a></td>
-        <td>{$counting_result[sec2].count}</td>
+        <td>{$counting_result[sec2].count|default:1}</td>
     </tr>
 {/section}
 </tbody> 
