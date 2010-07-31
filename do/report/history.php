@@ -29,8 +29,7 @@ class report_history extends Event
     
     public function delete()
     {
-        #todo: delete real file
-        $id = $this->request->get('id','');
+        $id = $this->request->get('hash','');
         
         $this->db->exec("DELETE FROM `reports` WHERE `id` = '".$id."';");
 
