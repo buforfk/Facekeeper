@@ -1,5 +1,18 @@
 #panel_content #main {width:680px;margin-left:20px;}
 #panel_content #main {_width:670px;margin-left:20px;}
 
-
 .sortable {width:670px; }
+
+.system_source div.SE { width:640px; }
+
+.system_source div.SE a.action {
+float:right; 
+font-size:15px;
+line-height:20px;
+color:#999;
+text-decoration:none;
+margin-right:20px;
+margin-top:-50px;
+width:70px;
+text-align:center;
+}
