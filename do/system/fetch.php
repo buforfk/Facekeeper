@@ -21,7 +21,6 @@ class system_fetch extends Event
     {
         $this->view->assign('interval', $this->config->get('fetch.interval'));
         $this->view->assign('depth', $this->config->get('fetch.depth'));
-        $this->view->assign('delete_days', $this->config->get('fetch.delete_days'));
         $this->view->assign('delete_enable', $this->config->get('fetch.delete_enable'));
         //$this->view->assign('keyword_combination', $this->config->get('fetch.keyword_combination'));
 
@@ -34,7 +33,6 @@ class system_fetch extends Event
     {
         $this->config->set('fetch.interval', $this->request->post('interval',12,bP_INT));
         $this->config->set('fetch.depth', $this->request->post('depth',5,bP_INT));
-        $this->config->set('fetch.delete_days', $this->request->post('delete_days',0,bP_INT)); // 0 表示不刪除
 
         $this->config->set('fetch.delete_enable', $this->request->post('delete_enable',0,bP_INT));
 
