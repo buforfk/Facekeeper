@@ -35,7 +35,7 @@
         <tbody>
             {section name=sec1 loop=$directory}
             <tr>
-                <td>{if $directory[sec1].type eq 0}群組{else}粉絲{/if}</td>
+                <td>{if $directory[sec1].type eq 0}社團{else}粉絲{/if}</td>
                 <td>{$directory[sec1].title}</td>
                 <td>{$directory[sec1].url}</td>
                 <td>{if $directory[sec1].tracking eq 0}<a href="{$bPack_rootpath}system/facebook/add_track?id={$directory[sec1].id}" class="add_track"></a>{else}<a href="{$bPack_rootpath}system/facebook/remove_track?id={$directory[sec1].id}" class="remove_track"></a>{/if}</td>
