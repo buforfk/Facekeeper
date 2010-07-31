@@ -18,6 +18,20 @@ class system_facebook extends Event
         $this->FaceKeeperHelper->setPageModule('system');
     }
     
+    public function enable()
+    {
+        $this->config->set('fb.enable', 1);
+        
+        $this->go('system/facebook');
+    }
+
+    public function disable()
+    {
+        $this->config->set('fb.enable', 0);
+        
+        $this->go('system/facebook');
+    }
+    
     public function defaultAction()
     {
         $start = $this->request->get('page', 1 , bP_INT);
@@ -37,9 +51,11 @@ class system_facebook extends Event
         $sql = "SELECT * FROM `fb_directories` ORDER BY `tracking` DESC, `type` ASC LIMIT $start,$per;";
 
         $directories = $this->db->query($sql)->fetchAll();
-
         $this->view->assign('directory',$directories);
 
+        $this->view->assign('status' , $this->config->get('fb.enable'));
+        $this->view->assign('username' , $this->config->get('fb.username'));
+        $this->view->assign('password' , $this->config->get('fb.password'));
         $this->view->output('system/facebook.html');
     }
 
@@ -83,5 +99,16 @@ class system_facebook extends Event
 
         $this->notifyHelper->set('更新工作已開始進行，請稍等片刻後再回來看看。');
         $this->go('system/facebook');
-    }
+    }    
+    
+    public function update()
+    {
+        $this->config->set('fb.username', $this->request->post('username',''));
+
+        $this->config->set('fb.password', $this->request->post('password',''));
+
+        $this->notifyHelper->set('Facebook 帳號設定已更新！');
+
+        $this->go('system/facebook');
+    } 
 }

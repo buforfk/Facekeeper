@@ -9,8 +9,17 @@ while($worker->work()) {
 
 function facebook_login($ch)
 {
-      $login_email='love29713871@yahoo.com.tw';
-    $login_pass='qoo74520';
+    $db = new PDO('mysql:host=localhost;dbname=repu', 'root' , 'bewexos');
+    $db->exec("SET NAMES 'utf8';");
+
+    $data = $db->query("SELECT `value`,`name` FROM `configs` WHERE `name` = 'fb.username' OR `name` = 'fb.password';")->fetchAll(PDO::FETCH_ASSOC);
+
+    $config = array();
+
+    foreach($data as $v) $config[$v['name']] = $v['value'];
+    
+    $login_email = $config['fb.username'];
+    $login_pass = $config['fb.password'];
 
     curl_setopt($ch, CURLOPT_POST, 1); 
     curl_setopt($ch, CURLOPT_URL, 'https://login.facebook.com/login.php'); 
@@ -18,10 +27,15 @@ function facebook_login($ch)
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
 
     curl_exec($ch);
+    
+    $db->exec("INSERT INTO `logs` SET `daemon` = 'FB_GRABPAGE', `message` = 'FB登入成功', `time` = NOW();");
 }
 
 function grabPage($job)
 {
+    $db = new PDO('mysql:host=localhost;dbname=repu', 'root' , 'bewexos');
+    $db->exec("SET NAMES 'utf8';");
+    
     $face_cookie = '/var/www/Facekeeper/tmp/FB_Store/cookie.txt';
 
     $ch = curl_init(); 
@@ -47,6 +61,9 @@ function grabPage($job)
         {
             file_put_contents('/var/www/Facekeeper/tmp/FB_Store/'. sha1($url).'.html', $content);
             $job_info_be_throw = array('hash'=>sha1($url), 'type' => $job_info->type);
+            
+            $db->exec("INSERT INTO `logs` SET `daemon` = 'FB_GRABPAGE', `message` = '".$job_info->url."', `time` = NOW();");
+
             $client->doBackground('FB_parsePage', json_encode($job_info_be_throw));
         }
         else
