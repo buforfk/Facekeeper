@@ -22,12 +22,6 @@
                     <label for="password">密碼</label><input type="password" name="password" size="10" maxlength="16" tabindex="2" />
                     <input type="submit" value="登入" tabindex="3" />
                 </form>
-                
-                {if $notifyMessage neq ''}
-                <p class="status msg">請輸入帳號密碼登入 :)</p>
-                {else}
-                <p class="status error">{$notifyMessage}</p>
-                {/if}
             </div>
         </div>
     </div>

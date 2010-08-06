@@ -28,7 +28,7 @@
     {/literal}
 </head>
 <body>
-    <div id="container">
+    <div id="container" class="rounded">
         <div id="account_function">
             Hi, <strong>{$userName}</strong>.<!-- <a href="{$bPack_rootpath}user/modify" class="modify_account">修改帳號資訊</a>--><a href="{$bPack_rootpath}user/logout" class="logout">登出</a>
         </div>
@@ -44,4 +44,4 @@
                     <li {if $pageModule eq 'keyword'}class="current"{/if}><a href="{$bPack_rootpath}keyword" title="在這裡您可以設定不同成果來源給予的不同關鍵字">關鍵字管理</a></li>
                 </ul>
             </div>
-            <div id="panel_content">
+            <div id="panel_content" class="rounded">
