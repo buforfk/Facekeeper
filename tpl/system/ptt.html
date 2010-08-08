@@ -8,13 +8,16 @@
     {if $status eq 1}
     <p><a href="{$bPack_rootpath}system/ptt/disable" onclick="return confirm('您是否確定停用PTT功能？(您的設定將不會消失)');" style="color:#FF0000; text-decoration:none;"><img src="{$bPack_rootpath}public/img/ptt_delete.png" border="0" />&nbsp;停用 PTT 功能</a></p>
     <br />
-    <h3>關注版面列表</h3>
+    <h3>新增關注版面</h3>
     <br />
     <form action="{$bPack_rootpath}system/ptt/add" method="post">
-    	版面名稱：<input type="text" name="board" size="20" />&nbsp;&nbsp;<input type="submit" value="新增" />
+    	關注版面名稱：<input type="text" name="board" size="20" />&nbsp;&nbsp;<input type="submit" value="新增" />
     </form>
-    <br />
-<div class="pagination quotes">
+
+ <br />
+    <h3>關注版面列表(依首字首排序)</h3>
+    <br  />
+    <div class="pagination quotes">
     {$pager}
  </div>
  <table class="sortable">
