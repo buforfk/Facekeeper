@@ -1,11 +1,14 @@
 <html lang="en">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
-    <title>登入 &laquo; Facekeeper</title>
-    <link rel="shortcut icon" type="image/x-icon" href="{$bPack_rootpath}public/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/common.css" />
-    <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/login.css" />
-    <!--[if IE]>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
+<title>登入 &laquo; Facekeeper</title>
+<link rel="shortcut icon" type="image/x-icon" href="{$bPack_rootpath}public/favicon.ico" />
+<link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/jquery-ui-1.8.2.custom.css" />
+<link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/common.css" />
+<link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/login.css" />
+<script type="text/javascript" src="{$bPack_rootpath}public/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="{$bPack_rootpath}public/js/jquery-ui-1.8.2.custom.min.js"></script>
+<!--[if IE]>
 <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/login_ie.css" />
 <![endif]-->
 </head>
@@ -17,13 +20,58 @@
             </div>
             
             <div id="login_form">
-                <form action="{$bPack_rootpath}user/login/login" method="post">
-                    <label for="username">帳號</label><input type="text" name="username" size="10" maxlength="16" tabindex="1" /> 
-                    <label for="password">密碼</label><input type="password" name="password" size="10" maxlength="16" tabindex="2" />
-                    <input type="submit" value="登入" tabindex="3" />
-                </form>
+                <label for="username">帳號</label><input type="text" id="username" size="10" maxlength="16" tabindex="1" /> 
+                <label for="password">密碼</label><input type="password" id="password" size="10" maxlength="16" tabindex="2" />
+                <button class="submit" value="登入" tabindex="3" />
             </div>
         </div>
     </div>
+
+{literal}
+<script type="text/javascript">
+$(document).ready(function() {
+    $("button.submit").button({icons:{secondary:'ui-icon-carat-1-e'}, label: '登入'}).click(function(){
+        $.post('{/literal}{$bPack_rootpath}{literal}user/login/ajax_login', {username: $("#username").val() , password: $("#password").val() }  , function(data) {
+            
+            if(data.message_code == 0) {
+                showError();
+            } 
+            
+            if(data.message_code == 1) {
+                goLoggedPage();
+            } 
+            
+            if(data.message_code == -1) {
+                goLoggedPage();
+            }
+            
+            if(math.abs(data.message_code) >= 2)
+            {
+                showError();
+            }
+
+        }, "json");
+    });
+
+    function goLoggedPage()
+    {
+        window.location.href ='{/literal}{$bPack_rootpath}{literal}report/web';
+    }
+
+    function showError()
+    {
+        $("#dialog-message").dialog({ modal: true, buttons: { Ok: function() { $(this).dialog('close'); }}});
+    }
+});
+</script>
+
+<div id="dialog-message" title="登入錯誤">
+	<p>
+		<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+		您的帳號或密碼錯誤，請再試一次
+	</p>
+</div>
+
+{/literal}
 </body>
 </html>

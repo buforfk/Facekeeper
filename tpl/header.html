@@ -4,11 +4,11 @@
     <title>Facekeeper</title>
     
     <link rel="shortcut icon" type="image/x-icon" href="{$bPack_rootpath}public/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/jquery-ui-1.8.2.custom.css" />
     <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/common.css" />
     <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/page.css" />
     <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/pagination.css" />
     <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/colortip-1.0-jquery.css" />
-    <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/jquery-ui-1.8.2.custom.css" />
     <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/prettyPhoto.css" />
     <!--[if IE]>
         <link rel="stylesheet" type="text/css" href="{$bPack_rootpath}public/css/ie.css" />
@@ -39,9 +39,9 @@
         <div id="panel_container" class="rounded">
             <div id="main_menu">
                 <ul>
-                    <li {if $pageModule eq 'report'}class="current"{/if}><a href="{$bPack_rootpath}report" title="在這裡您可以看到當下目前系統內所存的所有抓取結果">成果總覽</a></li>
-                    <li {if $pageModule eq 'system'}class="current"{/if}><a href="{$bPack_rootpath}system" title="在這裡您可以調整相關的設定，以便符合您的實際需要">系統設定</a></li>
-                    <li {if $pageModule eq 'keyword'}class="current"{/if}><a href="{$bPack_rootpath}keyword" title="在這裡您可以設定不同成果來源給予的不同關鍵字">關鍵字管理</a></li>
+                    <li {if $pageModule eq 'report'}class="current"{/if}><a href="{$bPack_rootpath}report" title="在這裡可以看到當下目前系統內所存的所有抓取結果">成果總覽</a></li>
+                    <li {if $pageModule eq 'system'}class="current"{/if}><a href="{$bPack_rootpath}system" title="在這裡可以調整相關的設定，以便符合您的實際需要">系統設定</a></li>
+                    <li {if $pageModule eq 'keyword'}class="current"{/if}><a href="{$bPack_rootpath}keyword" title="在這裡可以設定不同成果來源給予的不同關鍵字">關鍵字管理</a></li>
                 </ul>
             </div>
             <div id="panel_content" class="rounded">

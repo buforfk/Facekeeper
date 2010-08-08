@@ -1,0 +1,21 @@
+{include file="header.html"}
+{include file="system/menu.html"}
+<div id="main" class="system_backend">
+<h2>後台介面設定</h2>
+    <form action="{$bPack_rootpath}system/backend/update" method="post">
+    <p>
+    <img src="{$bPack_rootpath}public/img/timeline_marker.png" />&nbsp;在選單項目上顯示說明訊息：</label>
+    <input type="checkbox" value="1" name="tooltip" {if $tooltip eq 1}checked="checked"{/if} /></p>
+    <p>
+    <img src="{$bPack_rootpath}public/img/magnifier.png" />&nbsp;顯示結果時，一頁幾個項目:</label>
+    <input type="text" name="pager" value="{$pager}" /> 個項目</p>
+
+    <p><input type="submit" value="儲存設定" /></p>
+    </form>
+
+{literal}
+<script type="text/javascript">
+</script>
+{/literal}
+</div>
+{include file="footer.html"}

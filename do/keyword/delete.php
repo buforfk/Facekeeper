@@ -12,4 +12,24 @@ class keyword_delete extends Event
         $this->notifyHelper->set('關鍵字「'.urldecode($data['keyword']).'」已刪除');
         $this->go('keyword?t=' . $data['type']);
     }
+
+    public function bulk_delete()
+    {
+        $keyword_obj = new Keyword($this->db);
+        
+        $response = array();
+        foreach($_POST as $k=>$v)
+        {
+            if(substr($k, 0, 4) == 'item')
+            {
+                $keyword_obj->delete($v);
+                $response['success'][] = $v;
+            }
+        }
+
+        $this->notifyHelper->set(sizeof($response['success']) . ' 個關鍵字已刪除');
+
+        echo json_encode($response);
+        exit;
+    }
 }

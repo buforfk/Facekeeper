@@ -50,7 +50,7 @@ class keyword_add extends Event
 	{
 	    if ($keyword !== '')
 	    {
-		$keyword_obj->add($keyword);
+		$keyword_obj->add($keyword, $this->auth->getID());
 		$add_count++;
 	    }
 	}

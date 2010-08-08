@@ -12,6 +12,13 @@ class Auth extends bPack_Auth
         
         return $data['username'];
     }
+
+    public function getID()
+    {
+        $data = $this->getStorageData();
+
+        return $data['id'];
+    }
 }
 
 class Auth_LogonManager extends bPack_Auth_LogonManager

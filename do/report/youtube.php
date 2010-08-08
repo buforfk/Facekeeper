@@ -31,7 +31,7 @@ class report_youtube extends Event
         $start = ($start-1) * $per;
         $this->view->assign('pager', $pager_object->output(new bP_Pager_Decorator_Pagi));
         # 收錄資料統計
-        $results = $this->db->query("SELECT * FROM `youtube_pool` ORDER BY `date`,`views` DESC LIMIT $start,$per")->fetchAll(PDO::FETCH_ASSOC);
+        $results = $this->db->query("SELECT * FROM `youtube_pool` ORDER BY `date` DESC,`views` DESC LIMIT $start,$per")->fetchAll(PDO::FETCH_ASSOC);
 
         $this->view->assign('result' , $results);
 
@@ -48,5 +48,23 @@ class report_youtube extends Event
         $this->notifyHelper->set('Youtube影片結果已刪除');
 
         $this->go('report/youtube');
+    }
+
+    public function bulk_delete()
+    {
+        $response = array();
+        foreach($_POST as $k=>$v)
+        {
+            if(substr($k, 0, 4) == 'item')
+            {
+                $this->db->exec("DELETE FROM `youtube_pool` WHERE `id` = '".$v."';");
+                $response['success'][] = $v;
+            }
+        }
+
+        $this->notifyHelper->set(sizeof($response['success']) . ' 個項目已刪除');
+
+        echo json_encode($response);
+        exit;
     }
 }

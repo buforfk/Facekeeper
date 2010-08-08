@@ -25,6 +25,8 @@
             $this->_registerHelper(new bPack_Event_Helper_Default);
             $this->_registerHelper(new Helper_Notify($this->session));
             $this->_registerHelper(new Helper_FaceKeeper($this));
+
+            $this->view->assign('show_tooltips', $this->config->get('backend.showtooltip'));
             
         }
         

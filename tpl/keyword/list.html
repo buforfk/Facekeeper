@@ -9,17 +9,22 @@
         <table class="sortable">
             <thead>
             <tr>
-                <th width="100">編號</th>
+                <th width="250"><button class="select-all">全選</button><button class="select-none">全不選</button><button class="delete">刪除</button></th>
                 <th>關鍵字</th>
-                <th>動作</th>
+                <th>新增者</th>
+                <th>新增時間</th>
             </tr>
             </thead>
             <tbody>
+            <tr id="search-row">
+            <td colspan="4">查詢關鍵字：<input type="text" id="search" />&nbsp;&nbsp;<button id="search_keyword">查詢</button></td>
+            </tr>
             {section name=sec1 loop=$item}
             <tr id="row-{$item[sec1].id}">
-                <td>{$item[sec1].id}</td>
+                <td><input type="checkbox" name="item-{$item[sec1].id}" class="item" value="{$item[sec1].id}" /></td>
                 <td>{$item[sec1].key}</td>
-                <td><a href="{$bPack_rootpath}keyword/delete?id={$item[sec1].id}" class="delete">刪除</a><!--&nbsp;&nbsp;<a href="{$bPack_rootpath}keyword/modify?c={$c}&amp;id={$item[sec1].id}" class="modify">修改</a>--></td>
+                <td>{$item[sec1].creator}</td>
+                <td>{$item[sec1].created_at}</td>
             </tr>
             {/section}
             </tbody>
@@ -27,4 +32,27 @@
         
     </form>
 </div>
+
+{literal}
+<script type="text/javascript">
+    $("button.delete").button({icons:{primary:'ui-icon-trash'}}).click(function(){
+        $.post("{/literal}{$bPack_rootpath}{literal}keyword/delete/bulk_delete", $("input.item").serializeArray(), function(data){
+            window.location.reload();
+        },"json")
+    });
+
+    $("button.select-all").button({icons:{primary:'ui-icon-circle-check'}}).click(function(){
+         $("input[type='checkbox']:not([disabled='disabled'])").attr('checked', true);
+    });
+
+    $("button.select-none").button({icons:{primary:'ui-icon-circle-check'}}).click(function(){
+         $("input[type='checkbox']:not([disabled='disabled'])").attr('checked', false);
+    });
+    
+    $("button#search_keyword").button({icons:{primary:'ui-icon-search'}}).click(function(){
+        window.location.href = '{/literal}{$bPack_rootpath}{literal}keyword/default/search?t={/literal}{$type}{literal}&keyword=' + encodeURI($("input#search").val());
+
+    });
+</script>
+{/literal}
 {include file="footer.html"}

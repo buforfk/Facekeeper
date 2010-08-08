@@ -50,15 +50,15 @@ div.rounded {-moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius:
 
 #panel_content #main {width:690px;margin-left:20px;}
 
-#footer {font-family:Tahoma, Verdana, sans-serif; font-size:10px; text-align:right;clear:both;line-height:20px; height:30px; color:#ffffff; margin:1em;}
+#footer {font-family:Tahoma, Verdana, sans-serif; font-size:10px; text-align:center;clear:both;line-height:15px; height:30px; color:#ffffff; margin:1em;clear:both;}
 
-.sortable {width:680px; }
+.sortable {width:750px; }
 .sortable tr {height:40px;}
 .sortable th {text-align:center; background:#eeeeee;}
 .sortable td {text-align:center; background:#f3f3f3}
 .sortable tr.addRow td {text-align:center; background:#ffffff;height:50px;}
 
-h2 {margin:1em 10px;}
+h2 {margin:1em 20px; background: transparent; color:#333333;}
 
 a.delete {background: url(../img/delete.png) no-repeat top left; padding-left:20px; color:#FF0000; text-decoration:none;}
 a.delete:hover {color:#E64646; }

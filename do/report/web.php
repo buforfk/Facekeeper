@@ -59,4 +59,22 @@ class report_web extends Event
 
         $this->go('report/web');
     }
+
+    public function bulk_delete()
+    {
+        $response = array();
+        foreach($_POST as $k=>$v)
+        {
+            if(substr($k, 0, 4) == 'item')
+            {
+                $this->db->exec("DELETE FROM `result_pool` WHERE `hash` = '".$v."';");
+                $response['success'][] = $v;
+            }
+        }
+
+        $this->notifyHelper->set(sizeof($response['success']) . ' 個項目已刪除');
+
+        echo json_encode($response);
+        exit;
+    }
 }

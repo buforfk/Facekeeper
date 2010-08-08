@@ -37,4 +37,22 @@ class report_history extends Event
 
         $this->go('report/history');
     }
+
+    public function bulk_delete()
+    {
+        $response = array();
+        foreach($_POST as $k=>$v)
+        {
+            if(substr($k, 0, 4) == 'item')
+            {
+                $this->db->exec("DELETE FROM `reports` WHERE `id` = '".$v."';");
+                $response['success'][] = $v;
+            }
+        }
+
+        $this->notifyHelper->set(sizeof($response['success']) . ' 個項目已刪除');
+
+        echo json_encode($response);
+        exit;
+    }
 }

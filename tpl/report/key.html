@@ -1,7 +1,7 @@
 {include file="header.html"}
 {include file="report/menu.html"}
 <div id="main">
-<h2>Facebook 頁面累積關鍵字表</h2>
+<h2>頁面累積關鍵字表</h2>
 
 {if $NotifyMessage}
     <div class="message">{$NotifyMessage.message}</div>
@@ -15,7 +15,7 @@
         <th><abbr title="原網頁的位置(點下去會連到該頁面位置)">網址</abbr></th>
         <th><abbr title="原網頁的頁面標題(點下去會連到系統下載回的暫存)">標題</abbr></th>
         <th width="80"><abbr title="在內文與關鍵字相符的組數">切合關鍵字數</abbr></th>
-        <th width="80">動作</th>
+        <th width="100"><button class="select-all">全選</button><button class="select-none">全不選</button><button class="delete">刪除</button></th>
     </tr>
     </thead>
     <tbody>
@@ -24,7 +24,7 @@
         <td><a href="{$result[sec1].url}">{$result[sec1].url|truncate:40}</a></td>
         <td><a href="{$bPack_rootpath}tmp/Page_store/{$result[sec1].pid}/{$result[sec1].hash}.html">{$result[sec1].title|truncate:40}</a></td>
         <td>{$result[sec1].keyword_length}({$result[sec1].keywords})</td>
-        <td><a href="{$bPack_rootpath}report/facebook/delete?hash={$result[sec1].hash}" class="delete">刪除</a></td>
+        <td><input type="checkbox" name="item-{$result[sec1].hash}" class="item" value="{$result[sec1].hash}" /></td>
     </tr>
     {/section}
     </tbody>
@@ -33,4 +33,22 @@
 {$pager}
 </div>
 </div>
+{literal}
+<script type="text/javascript">
+    $("button.delete").button({icons:{primary:'ui-icon-trash'}}).click(function(){
+        $.post("{/literal}{$bPack_rootpath}{literal}report/keyword/bulk_delete", $("input.item").serializeArray(), function(data){
+            window.location.reload();
+        },"json")
+    });
+
+    $("button.select-all").button({icons:{primary:'ui-icon-circlesmall-plus'}}).click(function(){
+         $("input[type='checkbox']:not([disabled='disabled'])").attr('checked', true);
+    });
+
+    $("button.select-none").button({icons:{primary:'ui-icon-circlesmall-minus'}}).click(function(){
+         $("input[type='checkbox']:not([disabled='disabled'])").attr('checked', false);
+    });
+</script>
+{/literal}
+
 {include file="footer.html"}
