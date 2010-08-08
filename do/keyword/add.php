@@ -54,7 +54,7 @@ class keyword_add extends Event
 		$add_count++;
 	    }
 	}
-
+        $this->adminHelper->log('新增 ' . $add_count . ' 個關鍵字');
 	$this->notifyHelper->set('已新增 ' . $add_count . ' 個關鍵字');
 	$this->go('keyword/add?t='.$type);
     }

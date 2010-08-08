@@ -34,7 +34,7 @@ class report_history extends Event
         $this->db->exec("DELETE FROM `reports` WHERE `id` = '".$id."';");
 
         $this->notifyHelper->set('所選的項目已自結果集內刪除');
-
+        $this->adminHelper->log('歷史報表：已刪除報表項目 '.$id);
         $this->go('report/history');
     }
 
@@ -51,6 +51,7 @@ class report_history extends Event
         }
 
         $this->notifyHelper->set(sizeof($response['success']) . ' 個項目已刪除');
+        $this->adminHelper->log('歷史報表：已刪除報表項目 ' . sizeof($response['success']) . ' 個');
 
         echo json_encode($response);
         exit;

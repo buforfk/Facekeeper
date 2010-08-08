@@ -36,6 +36,7 @@ class system_source extends Event
         $this->config->set('source.'.$source_to_be_deacivated.'.enable', 0);
 
         $this->notifyHelper->set('來源 ['.$source_to_be_deacivated.'] 已停用');
+        $this->adminHelper->log('來源管理；停用來源 ['.$source_to_be_deacivated.']');
 
         $this->go('system/source');
     } 
@@ -47,6 +48,7 @@ class system_source extends Event
         $this->config->set('source.'.$source_to_be_acivated.'.enable', 1);
 
         $this->notifyHelper->set('來源 ['.$source_to_be_acivated.'] 已啟用');
+        $this->adminHelper->log('來源管理；啟用來源 ['.$source_to_be_deacivated.']');
 
         $this->go('system/source');
     }

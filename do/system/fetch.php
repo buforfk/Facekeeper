@@ -39,6 +39,7 @@ class system_fetch extends Event
         //$this->config->set('fetch.keyword_combination', $this->request->post('keyword_combination',1,bP_INT));
         
         $this->notifyHelper->set('抓取程式設定已更新！');
+        $this->adminHelper->log('抓取程式設定已更新！');
 
         $this->go('system/fetch');
     } 

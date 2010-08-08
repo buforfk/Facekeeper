@@ -31,6 +31,7 @@ class report_log extends Event
         $this->db->exec("TRUNCATE TABLE `logs`;");
 
         $this->notifyHelper->set('記錄已全部清空');
+        $this->adminHelper->log('抓取器記錄：記錄已全部清空');
 
         $this->go('report/log');
     }

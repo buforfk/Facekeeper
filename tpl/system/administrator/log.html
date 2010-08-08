@@ -1,0 +1,16 @@
+{include file="header.html"}
+{include file="system/menu.html"}
+<div id="main">
+<h2>管理員過程記錄(最新 150 條)</h2>
+
+{if $NotifyMessage}
+    <div class="message">{$NotifyMessage.message}</div>
+{/if}
+<textarea style="width:98%;font-size:10pt;height:300px;">
+{section name=sec1 loop=$log}
+{$log[sec1].time}:{$log[sec1].user_name}:{$log[sec1].message}
+{/section}
+</textarea>
+
+</div>
+{include file="footer.html"}

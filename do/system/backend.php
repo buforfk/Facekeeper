@@ -30,7 +30,8 @@ class system_backend extends Event
         $this->config->set('pager.itemperpage', $this->request->post('pager',1,bP_INT));
         
         $this->notifyHelper->set('Facekeeper 後台設定已更新！');
-
+        $this->adminHelper->log('Facekeeper 後台設定更新');
+        
         $this->go('system/backend');
     } 
 }

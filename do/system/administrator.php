@@ -39,6 +39,8 @@ class system_administrator extends Event
         $admin_obj->add($username, $password);
         
         $this->notifyHelper->set('管理員('.$username.')新增成功');
+        $this->adminHelper->log('管理員管理：新增 '.$username.')');
+        
         $this->go('system/administrator');
     }
     
@@ -51,6 +53,8 @@ class system_administrator extends Event
         $misc_obj->delete($item_id);
         
         $this->notifyHelper->set('管理員刪除成功');
+        $this->adminHelper->log('管理員管理：刪除 '.$item_id);
+        
         $this->go('system/administrator');
     }
     
@@ -66,6 +70,7 @@ class system_administrator extends Event
             $password = $this->request->post('password','');
             $admin_obj->update($item_id, $password);
             $this->notifyHelper->set('管理員修改成功');
+            $this->adminHelper->log('管理員管理：改密碼 '.$item_id);
             $this->go('system/administrator');
         }
         else

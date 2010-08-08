@@ -50,6 +50,7 @@ class system_report extends Event
         $this->config->set('report.receiver', $this->request->post('receiver',''));
         
         $this->notifyHelper->set('報表設定已更新！');
+        $this->adminHelper->log('報表設定已更新！');
 
         $this->go('system/report');
     } 

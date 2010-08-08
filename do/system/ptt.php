@@ -39,6 +39,7 @@ class system_ptt extends Event
         $this->db->query("INSERT INTO `ptt_boards` SET `board` = '$board';");
 
         $this->notifyHelper->set("$board 新增完成");
+        $this->adminHelper->log("PTT 管理：$board 新增完成");
 
         $this->go('system/ptt');
     }

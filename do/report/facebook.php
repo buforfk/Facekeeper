@@ -49,6 +49,7 @@ class report_facebook extends Event
         $this->db->exec("DELETE FROM `result_pool` WHERE `hash` = '".$hash."';");
 
         $this->notifyHelper->set('[內部編號：'.$hash.']的項目已自結果集內刪除');
+        $this->adminHelper->log('Facebook：已刪除結果項目 ' . $hash);
 
         $this->go('report/facebook');
     }
@@ -65,6 +66,7 @@ class report_facebook extends Event
             }
         }
 
+        $this->adminHelper->log('Facebook：已刪除結果項目 ' . sizeof($response['success']) . ' 個');
         $this->notifyHelper->set(sizeof($response['success']) . ' 個項目已刪除');
 
         echo json_encode($response);

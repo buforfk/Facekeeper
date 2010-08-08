@@ -45,7 +45,8 @@ class report_youtube extends Event
 
         $this->db->exec("DELETE FROM `youtube_pool` WHERE `id` = '".$id."';");
 
-        $this->notifyHelper->set('Youtube影片結果已刪除');
+        $this->notifyHelper->set('Youtube影片(#'.$id.')結果已刪除');
+        $this->adminHelper->log('Youtube影片結果：已刪除 '.$id);
 
         $this->go('report/youtube');
     }
@@ -63,6 +64,7 @@ class report_youtube extends Event
         }
 
         $this->notifyHelper->set(sizeof($response['success']) . ' 個項目已刪除');
+        $this->adminHelper->log('Youtube影片結果：已刪除 '.sizeof($response['success'])  . '個');
 
         echo json_encode($response);
         exit;

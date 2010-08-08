@@ -47,6 +47,8 @@ class keyword_default extends Event
 
         $this->view->assign('item',$items);
         $this->view->assign('type',$type);
+
+        $this->adminHelper->log('查詢關鍵字：「'.$keyword.'」');
         
         $this->view->output('keyword/list.html');
     }

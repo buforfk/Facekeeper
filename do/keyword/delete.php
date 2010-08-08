@@ -9,6 +9,7 @@ class keyword_delete extends Event
         $data = $keyword_obj->get($keyword_id);
         $keyword_obj->delete($keyword_id);
         
+        $this->adminHelper->log('刪除關鍵字「'.urldecode($data['keyword']).'」');
         $this->notifyHelper->set('關鍵字「'.urldecode($data['keyword']).'」已刪除');
         $this->go('keyword?t=' . $data['type']);
     }
@@ -28,7 +29,8 @@ class keyword_delete extends Event
         }
 
         $this->notifyHelper->set(sizeof($response['success']) . ' 個關鍵字已刪除');
-
+        $this->adminHelper->log('刪除關鍵字「'.sizeof($response['success']) . ' 個');
+        
         echo json_encode($response);
         exit;
     }

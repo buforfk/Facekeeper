@@ -75,6 +75,7 @@ class user_login extends Event
             if($login_result)
             {
                 $response = array('message_code' => 1);
+                $this->adminHelper->log('登入 ('.$_SERVER['REMOTE_ADDR'].')');
             }
             else
             {
