@@ -35,7 +35,10 @@ class VidGrabber:
 	self.rs = urllib2.urlopen(self.request_obj).read()
 
     def saveIntoFile(self, job):
-        rs1 = re.findall('class="watch\-video\-date"\>(.*?)</span>', self.rs)
+        self.rs = ''.join(self.rs.split())
+        
+        rs1 = re.findall('<spanid="eow-date"class="watch-video-date">(.*?)</span>', self.rs)
+
         rs3 = rs1[0]
 
         rs2 = re.findall('<strong class="watch\-view\-count">(.*?)</strong>', self.rs)
