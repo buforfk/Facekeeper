@@ -1,0 +1,36 @@
+{include file="header.html"}
+{include file="system/menu.html"}
+<div id="main" class="system_backup">
+    <h2>系統資料備份設定</h2>
+    {if $NotifyMessage}
+        <div class="message">{$NotifyMessage.message}</div>
+    {/if}
+    <h3>上次備份時間</h3>
+    <p>2010/08/31 (<a href="{$bPack_rootpath}system/backup/now">按此立即建立備份</a>)</p>
+    <br />
+    <h3>目前備份檔案列表(新到舊)</h3>
+    <br  />
+    <div class="pagination quotes">
+    {$pager}
+ </div>
+ <table class="sortable">
+        <thead>
+            <tr>
+                <th>檔名</th>
+                <th>動作</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {section name=sec1 loop=$directory}
+            <tr>
+                <td><a href="{$bPack_rootpath}backup/{$directory[sec1]}" target="_blank">{$directory[sec1]}</a></td>
+                <td><a href="{$bPack_rootpath}system/backup/remove?fn={$directory[sec1]}" class="delete">刪除</a></td>
+            </tr>
+            {/section}
+    </table>
+<div class="pagination quotes">
+    {$pager}
+</div>
+</div>
+{include file="footer.html"}

@@ -37,11 +37,12 @@ class VidGrabber:
     def saveIntoFile(self, job):
         self.rs = ''.join(self.rs.split())
         
+        # date
         rs1 = re.findall('<spanid="eow-date"class="watch-video-date">(.*?)</span>', self.rs)
-
         rs3 = rs1[0]
 
-        rs2 = re.findall('<strong class="watch\-view\-count">(.*?)</strong>', self.rs)
+        # views
+        rs2 = re.findall('<strongclass="watch\-view\-count">(.*?)</strong>', self.rs)
         rs4 = rs2[0]
     
         self.db.execute("UPDATE `youtube_pool` SET `date` = '"+rs3+"', `views` = '"+str(int(rs4))+"' WHERE `id` = '"+str(job["id"])+"';")

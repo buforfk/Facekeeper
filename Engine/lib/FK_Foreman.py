@@ -9,7 +9,7 @@ import gearman, sys, os, hashlib, datetime
 
 import FK_SearchEngine
 
-ideal_works = ["grabSEPage", "parseSEPage","saveSELink","grabPage","encodePage","matchKeyword", "grabVidInfo","FB_fetchFans","FB_fetchGroup","FB_parsePage","FB_grabPage","FB_encodePage"]
+ideal_works = ["grabSEPage", "parseSEPage","saveSELink","grabPage","encodePage","matchKeyword", "grabVidInfo","FB_fetchFans","FB_fetchGroup","FB_parsePage","FB_grabPage","FB_encodePage","FK_Backup"]
 
 # readConfig
 # 讀取存在資料庫的設定值，並把他們變成一個 dict 方便存取
@@ -148,13 +148,6 @@ class Daemon_Process:
             if FK_CONFIGS["report.enable"] == "1":
                 os.system("php /var/www/Facekeeper/Engine/generateReport.php")
                 self.db.execute("INSERT INTO `cron_running_logs` SET `start_time` = NOW(),`type` = 'REPORT';")
-
-
-        # PTT
-        if FK_CONFIGS["ptt.enable"] == "1":
-            os.system("/var/www/Facekeeper/Engine/PTT/setupenv.sh &")
-            os.system("/var/www/Facekeeper/Engine/PTT/run.sh > /var/www/Facekeeper/tmp/PTT.log &")
-
 
         # Facebook
         if FK_CONFIGS["fb.enable"] == "1":

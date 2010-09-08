@@ -37,3 +37,6 @@
     file_put_contents(bPack_App_BaseDir . 'tmp/Report/'.date('Ymd').'.html', $view->render('report/generate.html'));
 
     $db->exec("INSERT INTO `reports` SET `filename` = '".date('Ymd').".html', `time` = NOW(), `filesize` = '".filesize(bPack_App_BaseDir . 'tmp/Report/'.date('Ymd') .'.html')."';");
+
+    // 寄信
+
