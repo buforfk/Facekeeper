@@ -6,7 +6,7 @@
         final public function __construct()
         {            
             $this->view = new bPack_View;
-            $this->view->setOutputHandler(new bPack_View_Smarty);
+            $this->view->setOutputHandler(new bPack_View_Twig);
             
             $this->session = new bPack_Session;
             
