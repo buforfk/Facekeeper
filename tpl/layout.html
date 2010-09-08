@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        
+        <title>{% block page_title %} &laquo;{% endblock %} Facekeeper</title>
+
+        <link rel="stylesheet" type="text/css" href="{{ bPack_rootpath }}public/css/stylesheet.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="{{ bPack_rootpath }}public/css/pagination.css" />
+        {% block head_css %}{% endblock %}
+
+        <script src="{{ bPack_rootpath }}public/js/jquery.js"></script>
+        <script src="{{ bPack_rootpath }}public/js/jquery_ui.js"></script>
+        {% block head_js %}{% endblock %}
+    </head>
+
+    <body>
+
+<div id="page">
+
+<div id="header">
+<h1><a href="#">Business Template</a></h1>
+<h2>Slogan - Description of your Business</h2>
+</div>
+
+<div id="menu">
+<ul>
+    <li><a href="{{ bPack_rootpath }}report" title="在這裡可以看到當下目前系統內所存的所有抓取結果">成果總覽</a></li>
+    <li><a href="{{ bPack_rootpath }}system" title="在這裡可以調整相關的設定，以便符合您的實際需要">系統設定</a></li>
+    <li><a href="{{ bPack_rootpath }}keyword" title="在這裡可以設定不同成果來源給予的不同關鍵字">關鍵字管理</a></li>
+</ul>
+</div>
+<div id="menubottom"> </div>
+
+<div id="wrapper">
+
+<div id="content">
+<h2>{% block content_title %}{% endblock %}</h2>
+
+{% if NotifyMessage %}
+<div id="message">{{ NotifyMessage }}</div>
+{% endif %}
+
+{% block page %}{% endblock %}
+</div>
+
+<div id="sidebar"> 
+    {% block sidebar %}{% endblock %}
+</div>
+
+<div style="clear: both;"> </div>
+
+</div>
+
+<div id="footer">
+<p><a href=""></a></p>
+</div>
+<div id="bottom"> </div>
+
+</div>
+
+		
+</body>
+
+</html>
