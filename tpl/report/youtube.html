@@ -1,54 +1,74 @@
-{include file="header.html"}
-{include file="report/menu.html"}
-<div id="main">
-<h2>Youtube 次數累積表</h2>
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
 
-{if $NotifyMessage}
-    <div class="message">{$NotifyMessage.message}</div>
-{/if}
-<div class="pagination quotes">
-{$pager}
-</div>
-<table class="sortable" id="youtube">
-    <thead>
-    <tr>
-        <th width="120"><abbr title="該影片的縮圖">影片</abbr></th>
-        <th><abbr title="該影片的標題">標題</abbr></th>
-        <th width="50"><abbr title="該影片被收錄時的瀏覽數">觀看</abbr></th>
-        <th width="100"><button class="select-all">全選</button><button class="select-none">全不選</button><button class="delete">刪除</button></th>
-    </tr>
-    </thead>
-    <tbody>
-    {section name=sec1 loop=$result}
-    <tr id="row-{$result[sec1].id}">
-        <td><a href="http://www.youtube.com/watch?v={$result[sec1].url}" rel="prettyPhoto" title="{$result[sec1].title}"><img src="http://i.ytimg.com/vi/{$result[sec1].url}/1.jpg" border="0" /></a><br /><span class="youtube_date">{$result[sec1].date}</span></td>
-        <td><a href="http://www.youtube.com/watch?v={$result[sec1].url}" rel="prettyPhoto" title="{$result[sec1].title}">{$result[sec1].title}</a></td>
-        <td>{$result[sec1].views}</td>
-        <td><input type="checkbox" name="item-{$result[sec1].id}" class="item" value="{$result[sec1].id}" /></td>
-    </tr>
-    {/section}
-    </tbody>
-</table>
-<div class="pagination quotes">
-{$pager}
-</div>
-</div>
-{literal}
-<script type="text/javascript">
-    $("button.delete").button({icons:{primary:'ui-icon-trash'}}).click(function(){
-        $.post("{/literal}{$bPack_rootpath}{literal}report/youtube/bulk_delete", $("input.item").serializeArray(), function(data){
-            window.location.reload();
-        },"json")
-    });
+{# 一些頁面的內容設定 #}
+    {% block page_title %}Youtube 次數累積表 {% parent %}{% endblock %}
+    {% block content_title %}Youtube 次數累積表{% endblock %}
 
-    $("button.select-all").button({icons:{primary:'ui-icon-circlesmall-plus'}}).click(function(){
-         $("input[type='checkbox']:not([disabled='disabled'])").attr('checked', true);
-    });
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "report/menu.html" %}
+    {% endblock %}
 
-    $("button.select-none").button({icons:{primary:'ui-icon-circlesmall-minus'}}).click(function(){
-         $("input[type='checkbox']:not([disabled='disabled'])").attr('checked', false);
-    });
-</script>
-{/literal}
+{# 啟用 PrettyPhoto #}
+    {% block head_js %}
+        {% parent %}
+        <script type="text/javascript" src="{{ bPack_rootpath }}public/js/jquery.prettyPhoto.js"></script>
+        
+        <script type="text/javascript">
+        $(document).ready(function(){
+            $("a[rel^='prettyPhoto']").prettyPhoto({theme:'facebook'});
+        });
+        </script>
+    {% endblock %}
 
-{include file="footer.html"}
+    {% block head_css %}
+        {% parent %}
+        <link rel="stylesheet" type="text/css" href="{{ bPack_rootpath }}public/css/prettyPhoto.css" />
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
+    <div class="pagination quotes">
+    {{ pager }}
+    </div>
+    <table class="sortable" id="youtube">
+        <thead>
+        <tr>
+            <th width="120"><abbr title="該影片的縮圖">影片</abbr></th>
+            <th><abbr title="該影片的標題">標題</abbr></th>
+            <th width="50"><abbr title="該影片被收錄時的瀏覽數">觀看</abbr></th>
+            <th width="100"><button class="select-all">全選</button><button class="select-none">全不選</button><button class="delete">刪除</button></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for resultRow in result %}
+        <tr id="row-{{ resultRow.id }}">
+            <td><a href="http://www.youtube.com/watch?v={{ resultRow.url }}" rel="prettyPhoto" title="{{ resultRow.title }}"><img src="http://i.ytimg.com/vi/{{ resultRow.url }}/1.jpg" border="0" /></a><br /><span class="youtube_date">{{ resultRow.date }}</span></td>
+            <td><a href="http://www.youtube.com/watch?v={{resultRow.url }}" rel="prettyPhoto" title="{{ resultRow.title }}">{{ resultRow.title }}</a></td>
+            <td>{{ resultRow.views }}</td>
+            <td><input type="checkbox" name="item-{{ resultRow.id }}" class="item" value="{{ resultRow.id }}" /></td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination quotes">
+    {{ pager }}
+    </div>
+    
+    <script type="text/javascript">
+        $("button.delete").button({icons:{primary:'ui-icon-trash'}}).click(function(){
+            $.post("{{ bPack_rootpath }}report/youtube/bulk_delete", $("input.item").serializeArray(), function(data){
+                window.location.reload();
+            },"json")
+        });
+
+        $("button.select-all").button({icons:{primary:'ui-icon-circlesmall-plus'}}).click(function(){
+             $("input[type='checkbox']:not([disabled='disabled'])").attr('checked', true);
+        });
+
+        $("button.select-none").button({icons:{primary:'ui-icon-circlesmall-minus'}}).click(function(){
+             $("input[type='checkbox']:not([disabled='disabled'])").attr('checked', false);
+        });
+    </script>
+{% endblock %}
