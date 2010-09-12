@@ -23,7 +23,7 @@ class report_youtube extends Event
 
         $pager_object = new bPack_Pager();
 
-        $results_count = $this->db->query("SELECT count(*) as `count` FROM `youtube_pool`;")->fetch(PDO::FETCH_ASSOC);
+        $results_count = $this->db->query("SELECT count(*) as `count` FROM `youtube_pool` WHERE `pid` = (SELECT MAX(`pid`) FROM `youtube_pool`);")->fetch(PDO::FETCH_ASSOC);
         $pager_object->total(ceil($results_count['count'] / $per));
         $pager_object->per($per);
         $pager_object->current($start);
@@ -31,7 +31,7 @@ class report_youtube extends Event
         $start = ($start-1) * $per;
         $this->view->assign('pager', $pager_object->output(new bP_Pager_Decorator_Pagi));
         # 收錄資料統計
-        $results = $this->db->query("SELECT * FROM `youtube_pool` ORDER BY `date` DESC,`views` DESC LIMIT $start,$per")->fetchAll(PDO::FETCH_ASSOC);
+        $results = $this->db->query("SELECT * FROM `youtube_pool` WHERE `pid` = (SELECT MAX(`pid`) FROM `youtube_pool`) ORDER BY `date` DESC,`views` DESC LIMIT $start,$per")->fetchAll(PDO::FETCH_ASSOC);
 
         $this->view->assign('result' , $results);
 

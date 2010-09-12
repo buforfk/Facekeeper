@@ -40,7 +40,7 @@ class system_facebook extends Event
 
          $pager_object = new bPack_Pager();
 
-        $results_count = $this->db->query("SELECT count(*) as `count` FROM `fb_directories`;")->fetch(PDO::FETCH_ASSOC);
+        $results_count = $this->db->query("SELECT count(*) as `count` FROM `fb_directories` GROUP BY `url`;")->fetch(PDO::FETCH_ASSOC);
         $pager_object->total(ceil($results_count['count'] / $per));
         $pager_object->per($per);
         $pager_object->current($start);
@@ -48,7 +48,7 @@ class system_facebook extends Event
         $this->view->assign('pager', $pager_object->output(new bP_Pager_Decorator_Pagi));
 
         # fetch
-        $sql = "SELECT * FROM `fb_directories` ORDER BY `tracking` DESC, `type` ASC LIMIT $start,$per;";
+        $sql = "SELECT * FROM `fb_directories` GROUP BY `url` ORDER BY `tracking` DESC, `type` ASC LIMIT $start,$per;";
 
         $directories = $this->db->query($sql)->fetchAll();
         $this->view->assign('directory',$directories);

@@ -26,7 +26,7 @@ class report_facebook extends Event
 
          $pager_object = new bPack_Pager();
 
-        $results_count = $this->db->query("SELECT count(*) as `count` FROM `result_pool` WHERE `source` = 1;")->fetch(PDO::FETCH_ASSOC);
+        $results_count = $this->db->query("SELECT count(*) as `count` FROM `result_pool`  WHERE `source` = 1 GROUP BY `hash`;")->fetch(PDO::FETCH_ASSOC);
         $pager_object->total(ceil($results_count['count'] / $per));
         $pager_object->per($per);
         $pager_object->current($start);
@@ -35,7 +35,7 @@ class report_facebook extends Event
 
  
         # 收錄資料統計
-        $results = $this->db->query("SELECT * FROM `result_pool` WHERE `source` = 1 ORDER BY `keyword_length` DESC LIMIT $start, $per")->fetchAll(PDO::FETCH_ASSOC);
+        $results = $this->db->query("SELECT * FROM `result_pool` WHERE `source` = 1 GROUP BY `hash`  ORDER BY `keyword_length` DESC LIMIT $start, $per")->fetchAll(PDO::FETCH_ASSOC);
 
         $this->view->assign('result' , $results);
 
