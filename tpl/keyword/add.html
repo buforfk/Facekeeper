@@ -1,26 +1,31 @@
-{include file="header.html"}
-{include file="keyword/menu.html"}
-<div id="main" class="keyword">
-<h2>新增關鍵字</h2>
-{if $NotifyMessage}
-    <div class="message">{$NotifyMessage.message}</div>
-{/if}
-<form action="{$bPack_rootpath}keyword/add/add_upload" enctype="multipart/form-data" method="post">
-<input type="hidden" name="t" value="{$type}" />
-<h3>大量上傳</h3>
-<p>您可以在此上傳一個一行為一個關鍵字的 .csv 檔(若是強烈指定順序者，請使用a,b,c)</p>
-<p><img src="{$bPack_rootpath}public/img/page_white_get.png" />&nbsp;<input type="file" name="txt" size="10" /></p><br /><p><input type="submit" value="上傳並匯入關鍵字" /></p>
-</form>
-<form action="{$bPack_rootpath}keyword/add/add" method="post">
-<input type="hidden" name="t" value="{$type}" />
-<h3>手動輸入</h3>
-<p>您可以在這裡一個一個將關鍵字輸入進系統中(若是強烈指定順序者，請使用a,b,c)</p>
-{for $x = 1 to 10}
-<p><img src="{$bPack_rootpath}public/img/tag.png" />&nbsp;關鍵字：&nbsp;<input type="text" value="" name="keyword[]" tabindex="{$x}" /></p>
-{/for}
-<br />
-<p><input type="submit" value="新增關鍵字" tabindex="11" /></p>
-        
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
+
+{# 一些頁面的內容設定 #}
+    {% block page_title %}新增關鍵字 {% parent %}{% endblock %}
+    {% block content_title %}新增關鍵字{% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "keyword/menu.html" %}
+    {% endblock %}
+
+{% block page %}
+    <form action="{{ bPack_rootpath }}keyword/add/add_upload" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="t" value="{{ type }}" />
+    <h3>大量上傳</h3>
+    <p>您可以在此上傳一個一行為一個關鍵字的 .csv 檔(若是強烈指定順序者，請使用a,b,c)</p>
+    <p><img src="{{ bPack_rootpath }}public/img/page_white_get.png" />&nbsp;<input type="file" name="txt" size="10" /></p><br /><p><input type="submit" value="上傳並匯入關鍵字" /></p>
     </form>
-</div>
-{include file="footer.html"}
+    
+    <form action="{{ bPack_rootpath }}keyword/add/add" method="post">
+    <input type="hidden" name="t" value="{{ type }}" />
+    <h3>手動輸入</h3>
+    <p>您可以在這裡一個一個將關鍵字輸入進系統中(若是強烈指定順序者，請使用a,b,c)</p>
+    {% for i in 1..10 %}
+    <p><img src="{{ bPack_rootpath }}public/img/tag.png" />&nbsp;關鍵字：&nbsp;<input type="text" value="" name="keyword[]" tabindex="{{ i }}" /></p>
+    {% endfor %}
+    <br />
+    <p><input type="submit" value="新增關鍵字" tabindex="11" /></p>
+    </form>
+{% endblock %} 

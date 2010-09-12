@@ -1,13 +1,21 @@
-{include file="header.html"}
-{include file="system/menu.html"}
-<div id="main" class="system_source">
-    <h2>定期報表設定</h2>
-    {if $NotifyMessage}
-        <div class="message">{$NotifyMessage.message}</div>
-    {/if}
-    {if $report_status eq 1}
-    <form action="{$bPack_rootpath}system/report/update" method="post">
-    <p><a href="{$bPack_rootpath}system/report/disable" onclick="return confirm('您是否確定停用定期報表功能？(您的設定將不會消失)');" style="color:#FF0000; text-decoration:none;"><img src="{$bPack_rootpath}public/img/chart_line_delete.png" border="0" />&nbsp;停用定期產生報表</a></p>
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
+
+{# 一些頁面的內容設定 #}
+    {% block page_title %}定期報表設定 {% parent %}{% endblock %}
+    {% block content_title %}定期報表設定{% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "system/menu.html" %}
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
+
+    {% if report_status %}
+    <form action="{{ bPack_rootpath }}system/report/update" method="post">
+    <p><a href="{{ bPack_rootpath }}system/report/disable" onclick="return confirm('您是否確定停用定期報表功能？(您的設定將不會消失)');" style="color:#FF0000; text-decoration:none;"><img src="{{ bPack_rootpath }}public/img/chart_line_delete.png" border="0" />&nbsp;停用定期產生報表</a></p>
     <br />
     <script type="text/javascript">
 	$(document).ready(function() {
@@ -15,7 +23,7 @@
                 range: "max",
                 min: 7,
                 max: 21,
-                value: {$interval},
+                value: {{ interval }},
                 slide: function(event, ui) {
                     $("#interval").val(ui.value);
                 }
@@ -25,18 +33,16 @@
     </script>
 
     <p>
-    <img src="{$bPack_rootpath}public/img/timeline_marker.png" />&nbsp;產生頻率:</label>
+    <img src="{{ bPack_rootpath }}public/img/timeline_marker.png" />&nbsp;產生頻率:</label>
     <input type="text" id="interval" name="interval" style="border:0; color:#f6931f; font-weight:bold;width:20px;text-align:center;" /> 天</p>
 <div id="slider-range-max" style="width:80%;margin:1em;"></div>
 </p>
- <!--   <p><img src="{$bPack_rootpath}public/img/report.png" />&nbsp;報表格式</p>
-    <p style="margin:1em;"><input type="radio" value="HTML" name="format"  {if $format eq 'HTML'}checked="checked"{/if} /> HTML--><!--&nbsp;<input type="radio" value="PDF" name="format"  {if $format eq 'PDF'}checked="checked"{/if} />&nbsp;PDF</p>-->
-    <p><img src="{$bPack_rootpath}public/img/user_go.png" border="0" /> 報表寄送給誰？(請用 , 分隔)</p>
-    <p style="margin:1em;"><input type="text" name="receiver" size="40" value="{$receiver}" /></p>
+    <p><img src="{{ bPack_rootpath }}public/img/user_go.png" border="0" /> 報表寄送給誰？(請用 , 分隔)</p>
+    <p style="margin:1em;"><input type="text" name="receiver" size="40" value="{{ receiver }}" /></p>
     <p><input type="submit" value="儲存設定" /></p>
     </form>
-    {else}
-    <p><a href="{$bPack_rootpath}system/report/enable" style="color:green; text-decoration:none;"><img src="{$bPack_rootpath}public/img/chart_line_add.png" border="0" />&nbsp;啟用定期產生報表</a></p>
-    {/if}
-    </div>
-{include file="footer.html"}
+    {% else %}
+    <p><a href="{{ bPack_rootpath }}system/report/enable" style="color:green; text-decoration:none;"><img src="{{ bPack_rootpath }}public/img/chart_line_add.png" border="0" />&nbsp;啟用定期產生報表</a></p>
+    {% endif %}
+
+    {% endblock %} 

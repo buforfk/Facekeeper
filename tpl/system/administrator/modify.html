@@ -1,12 +1,21 @@
-{include file="header.html"}
-{include file="system/menu.html"}
-<div id="main">
-<h2>管理員 {$username} 密碼更改</h2>
-<form method="post" action="{$bPack_rootpath}system/administrator/modify?id={$id}">
-    <p><img src="{$bPack_rootpath}public/img/key.png" />&nbsp新密碼：&nbsp;<input type="password"  name="password"/></p>
-    <p><img src="{$bPack_rootpath}public/img/key_go.png" />&nbsp新密碼確認：&nbsp;<input type="password"  name="password2"/></p>
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
+
+{# 一些頁面的內容設定 #}
+    {% block page_title %}管理員 ({{ username }}) 密碼更改 {% parent %}{% endblock %}
+    {% block content_title %}管理員 ({{ username }}) 密碼更改{% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "system/menu.html" %}
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
+<form method="post" action="{{ bPack_rootpath }}system/administrator/modify?id={{ id }}">
+    <p><img src="{$bPack_rootpath}public/img/key.png" />&nbsp;新密碼：&nbsp;<input type="password"  name="password"/></p>
+    <p><img src="{$bPack_rootpath}public/img/key_go.png" />&nbsp;新密碼確認：&nbsp;<input type="password"  name="password2"/></p>
     <br />
     <input type="submit" value="更改密碼" />        
 </form>
-</div>
-{include file="footer.html"}
+{% endblock %}

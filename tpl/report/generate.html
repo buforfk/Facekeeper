@@ -69,30 +69,6 @@ body {text-align:center;}
 </table> 
 </div>
 
-<div id="reportptt">
-<h2>ptt 頁面關鍵字切合 最高 50 筆</h2>
-<table class="result">
-    <thead>
-    <tr>
-        <th>版面</th>
-        <th>標題</th>
-        <th>切合關鍵字數</th>
-    </tr>
-    </thead>
-    <tbody>
-    {section name=sec4 loop=$ptt_result}
-    <tr id="row-{$ptt_result[sec4].hash}">
-        <td>{$ptt_result[sec4].board}</a></td>
-        <td><a href="{$ptt_result[sec4].url}">{$ptt_result[sec4].title|truncate:40}</a></td>
-        <td>{$ptt_result[sec4].keyword_length}({$ptt_result[sec4].keywords})</td>
-    </tr>
-    {/section}
-    </tbody>
-</table>
-
-</div>
-
-
 <div id="reportCounting">
 <h2>次數統計最高 50 筆</h2>
 <table class="result"> 

@@ -1,16 +1,20 @@
-{include file="header.html"}
-{include file="system/menu.html"}
-<div id="main">
-<h2>管理員過程記錄(最新 150 條)</h2>
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
 
-{if $NotifyMessage}
-    <div class="message">{$NotifyMessage.message}</div>
-{/if}
+{# 一些頁面的內容設定 #}
+    {% block page_title %}管理員過程記錄 {% parent %}{% endblock %}
+    {% block content_title %}管理員過程記錄(最新 150 條){% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "system/menu.html" %}
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
 <textarea style="width:98%;font-size:10pt;height:300px;">
-{section name=sec1 loop=$log}
-{$log[sec1].time}:{$log[sec1].user_name}:{$log[sec1].message}
-{/section}
+{% for record in log %}
+{{ record.time }}:{{ record.user_name }}:{{ record.message}}
+{% endfor %}
 </textarea>
-
-</div>
-{include file="footer.html"}
+{% endblock %}

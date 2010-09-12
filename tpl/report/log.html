@@ -1,17 +1,20 @@
-{include file="header.html"}
-{include file="report/menu.html"}
-<div id="main">
-<h2>抓取過程記錄(最新 150 條)</h2>
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
 
-{if $NotifyMessage}
-    <div class="message">{$NotifyMessage.message}</div>
-{/if}
-<p><a href="{$bPack_rootpath}report/log/cleanup" onclick="return confirm('您是否確認清除所有的抓取過程記錄？');" style="color:red; text-decoration:none;"><img src="{$bPack_rootpath}public/img/delete.png" border="0" />&nbsp;清除所有的抓取記錄</a></p>
-<textarea style="width:98%;font-size:10pt;height:300px;">
-{section name=sec1 loop=$log}
-{$log[sec1].time}:{$log[sec1].daemon}:{$log[sec1].message}
-{/section}
-</textarea>
+{# 一些頁面的內容設定 #}
+    {% block page_title %}抓取過程記錄{% parent %}{% endblock %}
+    {% block content_title %}抓取過程記錄 (最新150條){% endblock %}
 
-</div>
-{include file="footer.html"}
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "report/menu.html" %}
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
+    <p><a href="{{ bPack_rootpath }}report/log/cleanup" onclick="return confirm('您是否確認清除所有的抓取過程記錄？');" style="color:red; text-decoration:none;"><img src="{$bPack_rootpath}public/img/delete.png" border="0" />&nbsp;清除所有的抓取記錄</a></p>
+   
+   <textarea style="width:98%;font-size:10pt;height:300px;">{% for record in log %}
+{{ record.time }}:{{ record.daemon }}:{{ record.message}}
+{% endfor %}</textarea>
+{% endblock %}

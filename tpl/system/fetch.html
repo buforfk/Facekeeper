@@ -1,27 +1,32 @@
-{include file="header.html"}
-{include file="system/menu.html"}
-<div id="main" class="system_source">
-    <h2>抓取程式管理</h2>
-    {if $NotifyMessage}
-        <div class="message">{$NotifyMessage.message}</div>
-    {/if}
-    <form action="{$bPack_rootpath}system/fetch/update" method="post">
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
+
+{# 一些頁面的內容設定 #}
+    {% block page_title %}抓取程式設置 {% parent %}{% endblock %}
+    {% block content_title %}抓取程式設置{% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "system/menu.html" %}
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
+    <p><a href="{{ bPack_rootpath }}system/fetch/now" style="color:red;"><img src="{{ bPack_rootpath }}public/img/timeline_marker.png" border="0" />&nbsp;馬上重新抓取</a></p>
+    <form action="{{ bPack_rootpath }}system/fetch/update" method="post">
     <p>
-    <img src="{$bPack_rootpath}public/img/timeline_marker.png" />&nbsp;抓取頻率:</label>
+    <img src="{{ bPack_rootpath }}public/img/timeline_marker.png" />&nbsp;抓取頻率:</label>
     <input type="text" id="interval" name="interval" style="border:0; color:#f6931f; font-weight:bold;width:20px;text-align:center;" /> 小時</p>
 <div id="slider-interval" style="width:80%;margin:1em;"></div>
     <p>
-    <img src="{$bPack_rootpath}public/img/magnifier.png" />&nbsp;抓取深度:</label>
+    <img src="{{ bPack_rootpath }}public/img/magnifier.png" />&nbsp;抓取深度:</label>
     <input type="text" id="depth" name="depth" style="border:0; color:#f6931f; font-weight:bold;width:20px;text-align:center;" /> 層</p>
 <div id="slider-depth" style="width:80%;margin:1em;"></div>
 
-    <!--<p><img src="{$bPack_rootpath}public/img/box.png" />&nbsp;關鍵字組合的複雜度</p>
-    <p style="margin:1em;line-height:150%;"><input type="radio" value="1" name="keyword_combination" {if $keyword_combination eq '1'}checked="checked"{/if} />&nbsp;個別查詢&nbsp;(一個一個查詢)<br /><input type="radio" value="2" name="keyword_combination"  {if $keyword_combination eq '2'}checked="checked"{/if} /> 兩兩相配&nbsp;(會產生出A,B,AB,BA的查詢)<br /><input type="radio" value="3" name="keyword_combination"  {if $keyword_combination eq '3'}checked="checked"{/if} /> 三組相配&nbsp;(會產生出A,B,C,AB,AC,BA,BC,CA,CB,ABC,ACB,BAC,BCA,CAB,CBA的查詢)</p>-->
-    <p><img src="{$bPack_rootpath}public/img/delete.png" />&nbsp;舊資料刪除</p>
-    <p style="margin:1em;"><input type="checkbox" name="delete_enable" value="1" {if $delete_enable eq 1}checked="checked"{/if} /> 在每次產生報表以後刪除舊資料</p>
+    <p><img src="{{ bPack_rootpath }}public/img/delete.png" />&nbsp;舊資料刪除</p>
+    <p style="margin:1em;"><input type="checkbox" name="delete_enable" value="1" {% if delete_enable %}checked="checked"{% endif %} /> 在每次產生報表以後刪除舊資料</p>
     <p><input type="submit" value="儲存設定" /></p>
     </form>
-    </div>
 
      <script type="text/javascript">
 	$(document).ready(function() {
@@ -29,7 +34,7 @@
                 range: "max",
                 min: 12,
                 max: 144,
-                value: {$interval},
+                value: {{ interval }},
                 slide: function(event, ui) {
                     $("#interval").val(ui.value);
                 }
@@ -44,7 +49,7 @@
                 range: "max",
                 min: 1,
                 max: 5,
-                value: {$depth},
+                value: {{ depth }},
                 slide: function(event, ui) {
                     $("#depth").val(ui.value);
                 }
@@ -52,5 +57,4 @@
         $("#depth").val($("#slider-depth").slider("value"));
         });
     </script>
-
-    {include file="footer.html"}
+{% endblock %}

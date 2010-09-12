@@ -1,17 +1,22 @@
-{include file="header.html"}
-{include file="system/menu.html"}
-<div id="main" class="system_source">
-    <h2>結果來源管理</h2>
-    {if $NotifyMessage}
-        <div class="message">{$NotifyMessage.message}</div>
-    {/if}
-    
-    {section name=sec1 loop=$source}
-    <div class="SE rounded">
-        <h3>{$source[sec1].name}</h3>
-        <img src="{$bPack_rootpath}public/img/SE/{$source[sec1].name}.png" alt="Google" class="icon" />
-        <a class="action {if $source[sec1].status eq 0}de{/if}activated" href="{$bPack_rootpath}system/source/{if $source[sec1].status eq 1}de{/if}activate?source={$source[sec1].name}">{if $source[sec1].status eq 0}啟用{else}停用{/if}</a>
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
+
+{# 一些頁面的內容設定 #}
+    {% block page_title %}結果來源管理 {% parent %}{% endblock %}
+    {% block content_title %}結果來源管理{% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "system/menu.html" %}
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
+    {% for item in source %}
+    <div class="SE rounded" style="float:left;margin:1em;">
+        <h3>{{ item.name }}</h3>
+        <img src="{{ bPack_rootpath }}public/img/SE/{{ item.name }}.png" alt="Google" class="icon" />
+        <a class="action {% if item.status == 1 %}de{% endif %}activated" href="{{ bPack_rootpath }}system/source/{% if item.status == 1 %}de{% endif %}activate?source={{ item.name }}">{% if item.status == 1 %}停用{%else%}啟用{% endif %}</a>
     </div>
-    {/section}
-</div>
-{include file="footer.html"}
+    {% endfor %}
+{% endblock %}

@@ -1,11 +1,18 @@
-{include file="header.html"}
-{include file="system/menu.html"}
-<div id="main">
-    <h2>管理員帳號管理</h2>
-    {if $NotifyMessage}
-        <div class="message">{$NotifyMessage.message}</div>
-    {/if}
-    <form method="post" action="{$bPack_rootpath}system/administrator/add">
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
+
+{# 一些頁面的內容設定 #}
+    {% block page_title %}管理員帳號列表 {% parent %}{% endblock %}
+    {% block content_title %}管理員帳號列表{% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "system/menu.html" %}
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
+    <form method="post" action="{{ bPack_rootpath }}system/administrator/add">
         
     <table id="system_administrator" class="sortable" cellspacing="0" cellpadding="0">
         <thead>
@@ -16,13 +23,13 @@
         </tr>
         </thead>
         <tbody>
-        {section name=sec1 loop=$admin}
-        <tr id="row-{$item[sec1].id}">
-            <td>{$admin[sec1].id}</td>
-            <td>{$admin[sec1].username}</td>
-            <td><a href="{$bPack_rootpath}system/administrator/delete?id={$admin[sec1].id}" class="delete">刪除</a>&nbsp;&nbsp;<a href="{$bPack_rootpath}system/administrator/modify?id={$admin[sec1].id}" class="modify">修改密碼</a></td>
+        {% for administrator in admin %}
+        <tr id="row-{{ administrator.id }}">
+            <td>{{ administrator.id }}</td>
+            <td>{{ administrator.username }}</td>
+            <td><a href="{{ bPack_rootpath }}system/administrator/delete?id={{ administrator.id }}" class="delete">刪除</a>&nbsp;&nbsp;<a href="{{ bPack_rootpath }}system/administrator/modify?id={{ administrator.id}}" class="modify">修改密碼</a></td>
         </tr>
-        {/section}
+        {% endfor %}
         </tbody>
         <tfoot>
         <tr class="addRow">
@@ -32,5 +39,4 @@
         </tfoot>
     </table>
     </form>
-</div>
-{include file="footer.html"}
+{% endblock %}

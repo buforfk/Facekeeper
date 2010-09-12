@@ -1,17 +1,20 @@
-{include file="header.html"}
-{include file="system/menu.html"}
-<div id="main" class="system_backup">
-    <h2>系統資料備份設定</h2>
-    {if $NotifyMessage}
-        <div class="message">{$NotifyMessage.message}</div>
-    {/if}
-    <h3>上次備份時間</h3>
-    <p>2010/08/31 (<a href="{$bPack_rootpath}system/backup/now">按此立即建立備份</a>)</p>
-    <br />
-    <h3>目前備份檔案列表(新到舊)</h3>
-    <br  />
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
+
+{# 一些頁面的內容設定 #}
+    {% block page_title %}備份檔案列表 {% parent %}{% endblock %}
+    {% block content_title %}備份檔案列表{% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "system/menu.html" %}
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
+    <p><a href="{{ bPack_rootpath }}system/backup/now"><img src="{{ bPack_rootpath }}public/img/database_lightning.png" border="0" />&nbsp;按此立即建立備份</a></p>
     <div class="pagination quotes">
-    {$pager}
+    {{ pager }}
  </div>
  <table class="sortable">
         <thead>
@@ -22,15 +25,15 @@
         </thead>
 
         <tbody>
-            {section name=sec1 loop=$directory}
+            {% for backup in directorty%}
             <tr>
-                <td><a href="{$bPack_rootpath}backup/{$directory[sec1]}" target="_blank">{$directory[sec1]}</a></td>
-                <td><a href="{$bPack_rootpath}system/backup/remove?fn={$directory[sec1]}" class="delete">刪除</a></td>
+                <td><a href="{{ bPack_rootpath }}backup/{{ backup }}" target="_blank">{{ backup }}</a></td>
+                <td><a href="{{ bPack_rootpath }}system/backup/remove?fn={{ backup }}" class="delete">刪除</a></td>
             </tr>
-            {/section}
+            {% endfor %}
     </table>
-<div class="pagination quotes">
-    {$pager}
-</div>
-</div>
-{include file="footer.html"}
+    <div class="pagination quotes">
+    {{ pager }}
+ </div>
+ {% endblock %}
+

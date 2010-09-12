@@ -1,26 +1,33 @@
-{include file="header.html"}
-{include file="system/menu.html"}
-<div id="main" class="system_facebook">
-    <h2>Facebook 抓取設定</h2>
-    {if $NotifyMessage}
-        <div class="message">{$NotifyMessage.message}</div>
-    {/if}
-    {if $status eq 1}
-    <p><a href="{$bPack_rootpath}system/facebook/disable" onclick="return confirm('您是否確定停用Facebook功能？(您的設定將不會消失)');" style="color:#FF0000; text-decoration:none;"><img src="{$bPack_rootpath}public/img/facebook_delete.gif" border="0" />&nbsp;停用 Facebook 功能</a></p>
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
+
+{# 一些頁面的內容設定 #}
+    {% block page_title %}Facebook 抓取設定 {% parent %}{% endblock %}
+    {% block content_title %}Facebook 抓取設定{% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "system/menu.html" %}
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
+    {% if status %}
+    <p><a href="{{ bPack_rootpath }}system/facebook/disable" onclick="return confirm('您是否確定停用Facebook功能？(您的設定將不會消失)');" style="color:#FF0000; text-decoration:none;"><img src="{{ bPack_rootpath }}public/img/facebook_delete.gif" border="0" />&nbsp;停用 Facebook 功能</a></p>
     <br />
     <h3>抓取帳號及密碼設定</h3>
     <p>
-    <form action="{$bPack_rootpath}system/facebook/update" method="post">
-    帳號：<input type="text" name="username" value="{$username}"/>&nbsp;&nbsp;
-    密碼：<input type="password" name="password" value="{$password}"/>&nbsp;&nbsp;
+    <form action="{{ bPack_rootpath }}system/facebook/update" method="post">
+    帳號：<input type="text" name="username" value="{{ username }}"/>&nbsp;&nbsp;
+    密碼：<input type="password" name="password" value="{{ password }}"/>&nbsp;&nbsp;
     <input type="submit" value="更新" />
     </form>
     </p>
     <br />
     <h3>粉絲、社群清單</h3>
-    <p align="right"><a href="{$bPack_rootpath}system/facebook/renew_list" class="renew">更新粉絲、社群清單</a></p>
+    <p align="right"><a href="{{ bPack_rootpath }}system/facebook/renew_list" class="renew">更新粉絲、社群清單</a></p>
 <div class="pagination quotes">
-    {$pager}
+{{ pager }}
  </div>
  <table class="sortable">
         <thead>
@@ -33,21 +40,20 @@
         </thead>
 
         <tbody>
-            {section name=sec1 loop=$directory}
+        {% for item in directory %}
             <tr>
-                <td>{if $directory[sec1].type eq 0}社團{else}粉絲{/if}</td>
-                <td>{$directory[sec1].title}</td>
-                <td>{$directory[sec1].url}</td>
-                <td>{if $directory[sec1].tracking eq 0}<a href="{$bPack_rootpath}system/facebook/add_track?id={$directory[sec1].id}" class="add_track"></a>{else}<a href="{$bPack_rootpath}system/facebook/remove_track?id={$directory[sec1].id}" class="remove_track"></a>{/if}</td>
+                <td>{% if item.type %}粉絲{% else %}社團{% endif %}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.url }}</td>
+                <td>{% if item.tracking %}<a href="{$bPack_rootpath}system/facebook/remove_track?id={$directory[sec1].id}" class="remove_track">移除監視</a>{% else %}<a href="{{ bPack_rootpath }}system/facebook/add_track?id={$directory[sec1].id}" class="add_track">加入監視</a>{% endif %}
             </tr>
-            {/section}
+            {% endfor %} 
     </table>
 <div class="pagination quotes">
-    {$pager}
+{{ pager }}
 </div>
-{else}
-    <p><a href="{$bPack_rootpath}system/facebook/enable" style="color:green; text-decoration:none;"><img src="{$bPack_rootpath}public/img/facebook.gif" border="0" />&nbsp;啟用 Facebook 功能</a></p>
+{% else %}
+    <p><a href="{{ bPack_rootpath }}system/facebook/enable" style="color:green; text-decoration:none;"><img src="{{ bPack_rootpath }}public/img/facebook.gif" border="0" />&nbsp;啟用 Facebook 功能</a></p>
 
-{/if}
-</div>
-{include file="footer.html"}
+{% endif %}
+{% endblock %}

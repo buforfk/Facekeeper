@@ -7,6 +7,7 @@
 
         <link rel="stylesheet" type="text/css" href="{{ bPack_rootpath }}public/css/stylesheet.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="{{ bPack_rootpath }}public/css/pagination.css" />
+        <link rel="stylesheet" type="text/css" href="{{ bPack_rootpath }}public/css/jquery_ui.css" />
         {% block head_css %}{% endblock %}
 
         <script src="{{ bPack_rootpath }}public/js/jquery.js"></script>
@@ -27,6 +28,7 @@
     <li><a href="{{ bPack_rootpath }}report" title="在這裡可以看到當下目前系統內所存的所有抓取結果">成果總覽</a></li>
     <li><a href="{{ bPack_rootpath }}system" title="在這裡可以調整相關的設定，以便符合您的實際需要">系統設定</a></li>
     <li><a href="{{ bPack_rootpath }}keyword" title="在這裡可以設定不同成果來源給予的不同關鍵字">關鍵字管理</a></li>
+    <li><a href="{{ bPack_rootpath }}user/logout" title="登出 Facekeeper">登出</a></li>
 </ul>
 </div>
 <div id="menubottom"> </div>
@@ -37,7 +39,7 @@
 <h2>{% block content_title %}{% endblock %}</h2>
 
 {% if NotifyMessage %}
-<div id="message">{{ NotifyMessage }}</div>
+<div id="message">{{ NotifyMessage.message }}</div>
 {% endif %}
 
 {% block page %}{% endblock %}

@@ -1,11 +1,16 @@
-{include file="header.html"}
-{include file="keyword/menu.html"}
-<div id="main">
-<h2>查詢詞彙列表</h2>
-        {if $NotifyMessage}
-            <div class="message">{$NotifyMessage.message}</div>
-        {/if}
-    
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
+
+{# 一些頁面的內容設定 #}
+    {% block page_title %}查詢詞彙列表 {% parent %}{% endblock %}
+    {% block content_title %}查詢詞彙列表{% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "keyword/menu.html" %}
+    {% endblock %}
+
+{% block page %}   
         <table class="sortable">
             <thead>
             <tr>
@@ -19,24 +24,22 @@
             <tr id="search-row">
             <td colspan="4">查詢關鍵字：<input type="text" id="search" />&nbsp;&nbsp;<button id="search_keyword">查詢</button></td>
             </tr>
-            {section name=sec1 loop=$item}
-            <tr id="row-{$item[sec1].id}">
-                <td><input type="checkbox" name="item-{$item[sec1].id}" class="item" value="{$item[sec1].id}" /></td>
-                <td>{$item[sec1].key}</td>
-                <td>{$item[sec1].creator}</td>
-                <td>{$item[sec1].created_at}</td>
+            {% for record in item %}
+            <tr id="row-{{ record.id }}">
+                <td><input type="checkbox" name="item-{{ record.id }}" class="item" value="{{ record.id }}" /></td>
+                <td>{{ record.key }}</td>
+                <td>{{ record.creator }}</td>
+                <td>{{ record.created_at }}</td>
             </tr>
-            {/section}
+            {% endfor %}
             </tbody>
         </table>
         
     </form>
-</div>
 
-{literal}
 <script type="text/javascript">
     $("button.delete").button({icons:{primary:'ui-icon-trash'}}).click(function(){
-        $.post("{/literal}{$bPack_rootpath}{literal}keyword/delete/bulk_delete", $("input.item").serializeArray(), function(data){
+        $.post("{{ bPack_rootpath }}keyword/delete/bulk_delete", $("input.item").serializeArray(), function(data){
             window.location.reload();
         },"json")
     });
@@ -50,9 +53,8 @@
     });
     
     $("button#search_keyword").button({icons:{primary:'ui-icon-search'}}).click(function(){
-        window.location.href = '{/literal}{$bPack_rootpath}{literal}keyword/default/search?t={/literal}{$type}{literal}&keyword=' + encodeURI($("input#search").val());
+        window.location.href = '{{ bPack_rootpath }}keyword/default/search?t={{ type }}&keyword=' + encodeURI($("input#search").val());
 
     });
 </script>
-{/literal}
-{include file="footer.html"}
+{% endblock %}

@@ -1,21 +1,26 @@
-{include file="header.html"}
-{include file="system/menu.html"}
-<div id="main" class="system_backend">
-<h2>後台介面設定</h2>
-    <form action="{$bPack_rootpath}system/backend/update" method="post">
+{# 繼承整體風格 #}
+    {% extends "layout.html" %}
+
+{# 一些頁面的內容設定 #}
+    {% block page_title %}操作後台設定 {% parent %}{% endblock %}
+    {% block content_title %}操作後台設定{% endblock %}
+
+{# 側邊欄選單 #}
+    {% block sidebar %}
+        {% include "system/menu.html" %}
+    {% endblock %}
+
+{# 頁面內容 #}
+{% block page %}
+    <form action="{{ bPack_rootpath }}system/backend/update" method="post">
     <p>
-    <img src="{$bPack_rootpath}public/img/timeline_marker.png" />&nbsp;在選單項目上顯示說明訊息：</label>
-    <input type="checkbox" value="1" name="tooltip" {if $tooltip eq 1}checked="checked"{/if} /></p>
+    <img src="{{ bPack_rootpath }}public/img/timeline_marker.png" />&nbsp;在選單項目上顯示說明訊息：</label>
+    <input type="checkbox" value="1" name="tooltip" {% if tooltip %}checked="checked"{% endif %} /></p>
     <p>
-    <img src="{$bPack_rootpath}public/img/magnifier.png" />&nbsp;顯示結果時，一頁幾個項目:</label>
-    <input type="text" name="pager" value="{$pager}" /> 個項目</p>
+    <img src="{{ bPack_rootpath }}public/img/magnifier.png" />&nbsp;顯示結果時，一頁幾個項目:</label>
+    <input type="text" name="pager" value="{{ pager }}" /> 個項目</p>
 
     <p><input type="submit" value="儲存設定" /></p>
     </form>
 
-{literal}
-<script type="text/javascript">
-</script>
-{/literal}
-</div>
-{include file="footer.html"}
+{% endblock %} 
