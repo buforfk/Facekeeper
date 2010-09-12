@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<report>
+<category name="關鍵字切合" type="keyword">
+    {section name=sec1 loop=$keyword_result}
+	<entry>
+		<title>{$keyword_result[sec1].title}</title>
+		<url>{$keyword_result[sec1].url|escape}</url>
+		<keyword>{$keyword_result[sec1].keywords}</keyword>
+		<count>{$keyword_result[sec1].length}</count>
+	</entry>
+    {/section}
+</category>
+
+<category name="出沒次數統計" type="count">
+    {section name=sec2 loop=$counting_result}
+        <entry>
+                <title>{$counting_result[sec2].title}</title>
+                <url>{$counting_result[sec2].url|escape}</url>
+                <count>{$counting_result[sec2].count|default:1}</count>
+        </entry>
+    {/section}
+</category>
+
+<category name="Facebook 結果關鍵字切合" type="facebook">
+    {section name=sec3 loop=$facebook_results}
+	<entry>
+		<title>{$facebook_results[sec3].title}</title>
+		<url>{$facebook_results[sec3].url|escape}</url>
+		<keyword>{$facebook_results[sec3].keywords}</keyword>
+		<count>{$facebook_results[sec3].keyword_length}</count>
+	</entry>
+    {/section}
+</category>
+
+</report>

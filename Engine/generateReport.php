@@ -33,5 +33,9 @@
 
     $db->exec("INSERT INTO `reports` SET `filename` = '".date('Ymd').".html', `time` = NOW(), `filesize` = '".filesize(bPack_App_BaseDir . 'tmp/Report/'.date('Ymd') .'.html')."';");
 
+    file_put_contents(bPack_App_BaseDir . 'tmp/Report/'.date('Ymd').'.xml', $view->render('report/generate.xml'));
+
+    $db->exec("INSERT INTO `reports` SET `filename` = '".date('Ymd').".xml', `time` = NOW(), `filesize` = '".filesize(bPack_App_BaseDir . 'tmp/Report/'.date('Ymd') .'.xml')."';");
+
     // 寄信
 
