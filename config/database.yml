@@ -1,6 +1,6 @@
 development:
     adapter: bPack_DB_MySQL
-    name: repu
+    name: facekeeper
     user: root
-    password: bewexos
+    password: 2o!0fAceK1ePe2
     host: localhost
