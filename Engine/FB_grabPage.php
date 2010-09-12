@@ -1,4 +1,7 @@
 ﻿<?php
+
+require_once('/var/www/Facekeeper/lib/bPack/lib/sfYaml/sfYaml.php');
+
 $worker = new GearmanWorker();
 $worker->addServer(); // 預設為 localhost
 $worker->addFunction('FB_grabPage', 'grabPage');
@@ -9,7 +12,10 @@ while($worker->work()) {
 
 function facebook_login($ch)
 {
-    $db = new PDO('mysql:host=localhost;dbname=repu', 'root' , 'bewexos');
+    $config = sfYaml::load('/var/www/Facekeeper/config/database.yml');
+    $ENV = 'development';
+
+    $db = new PDO('mysql:host='.$config[$ENV]['host'].';dbname='.$config[$ENV]['name'], $config[$ENV]['user'] , $config[$ENV]['password']); 
     $db->exec("SET NAMES 'utf8';");
 
     $data = $db->query("SELECT `value`,`name` FROM `configs` WHERE `name` = 'fb.username' OR `name` = 'fb.password';")->fetchAll(PDO::FETCH_ASSOC);

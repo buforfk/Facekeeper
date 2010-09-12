@@ -1,6 +1,7 @@
 <?php
 // Facekeeper v1.0
 // (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
+    require_once('/var/www/Facekeeper/lib/bPack/lib/sfYaml/sfYaml.php');
 
 $worker = new GearmanWorker();
 $worker->addServer(); // 預設為 localhost
@@ -12,7 +13,10 @@ while($worker->work()) {
 
 function encodePage($job)
 {
-    $db = new PDO('mysql:host=localhost;dbname=repu', 'root' , 'bewexos');
+    $config = sfYaml::load('/var/www/Facekeeper/config/database.yml');
+    $ENV = 'development';
+
+    $db = new PDO('mysql:host='.$config[$ENV]['host'].';dbname='.$config[$ENV]['name'], $config[$ENV]['user'] , $config[$ENV]['password']);
     $db->exec("SET NAMES 'utf8';");
 
     $job_info = json_decode(str_replace("'",'"',str_replace("u'","'",$job->workload())));

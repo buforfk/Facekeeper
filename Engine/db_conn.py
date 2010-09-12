@@ -6,13 +6,19 @@
 
 import MySQLdb
 import MySQLdb.cursors 
+import yaml
 
 class MySQL:
     def __init__(self):
-	self.db_conn = MySQLdb.connect (host = "localhost",
-                        user = "root",
-                        passwd = "bewexos",
-                        db = "repu", charset='utf8', use_unicode=True, cursorclass=MySQLdb.cursors.DictCursor)
+        config_text = open("/var/www/Facekeeper/config/database.yml")
+        config = yaml.load(config_text)
+
+        ENV = "development"
+
+	self.db_conn = MySQLdb.connect (host = config[ENV]['host'],
+                        user = config[ENV]['user'],
+                        passwd = config[ENV]['password'],
+                        db = config[ENV]['name'], charset='utf8', use_unicode=True, cursorclass=MySQLdb.cursors.DictCursor)
 	self.db_cursor = self.db_conn.cursor()
 
     def execute(self, sql):
