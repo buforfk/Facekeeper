@@ -31,7 +31,7 @@
             <td><a href="{{ resultRow.url }}">{{ resultRow.url | truncate(40) }}</a></td>
             <td><a href="{{ bPack_rootpath }}tmp/Page_store/{{ resultRow.pid }}/{{ resultRow.hash }}.html">{{ resultRow.title | truncate(40) }}</a></td>
             <td>{{ resultRow.count }}</td>
-            <td><input type="checkbox" name="item-{$result[sec1].hash}" class="item" value="{$result[sec1].hash}" /></td>
+            <td><input type="checkbox" name="item-{{ resultRow.hash }}" class="item" value="{{ resultRow.hash }}" /></td>
         </tr>
         {% endfor %}
         </tbody>
