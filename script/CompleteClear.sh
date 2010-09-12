@@ -11,4 +11,4 @@ rm -rf /var/www/Facekeeper/Engine/lib/*.pyc
 rm -rf /var/www/Facekeeper/backup/*.*
 
 # 資料庫
-mysql -uroot -pbewexos repu < Clear.sql
+mysql -uroot -p2o\!0fAceK1ePe2 facekeeper < Clear.sql
