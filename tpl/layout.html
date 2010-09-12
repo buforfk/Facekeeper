@@ -8,10 +8,12 @@
         <link rel="stylesheet" type="text/css" href="{{ bPack_rootpath }}public/css/stylesheet.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="{{ bPack_rootpath }}public/css/pagination.css" />
         <link rel="stylesheet" type="text/css" href="{{ bPack_rootpath }}public/css/jquery_ui.css" />
+        <link rel="stylesheet" type="text/css" href="{{ bPack_rootpath }}public/css/jquery.colortip.css" />
         {% block head_css %}{% endblock %}
 
         <script src="{{ bPack_rootpath }}public/js/jquery.js"></script>
         <script src="{{ bPack_rootpath }}public/js/jquery_ui.js"></script>
+        <script src="{{ bPack_rootpath }}public/js/jquery.colortip.js"></script>
         {% block head_js %}{% endblock %}
     </head>
 
@@ -60,6 +62,17 @@
 
 </div>
 
+<script type="text/javascript">
+$(document).ready(function(){
+{% if show_tooltips %}
+    $('[title]').colorTip({color:'blue'});
+{% endif %}
+    
+    $("a.delete").click(function(){return confirm("是否確定刪除本項目？")});
+
+    $("input:submit").button();
+});
+</script>
 		
 </body>
 
