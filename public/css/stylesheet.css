@@ -19,7 +19,7 @@ img a {border:none;}
 ul { list-style-type: none; }
 
 #page {
-width: 800px;
+width: 1000px;
 margin: 10px auto;
 }
 
@@ -43,20 +43,6 @@ color: #fff;
 font-size: 17px;
 font-weight: 100;
 padding: 7px 0 0 30px;
-}
-
-#intro {
-background: #efefef url(images/intro.jpg) no-repeat;
-height: 200px;
-font-style: italic;
-color: #fff;
-}
-#intro p {
-font-size: 14px;
-float: right;
-padding: 10px 20px 0 0;
-text-align: right; 
-width: 290px;
 }
 
 #menu {
@@ -96,7 +82,7 @@ padding: 10px 10px 30px 30px;
 
 #content {
 float: left;
-width: 600px;
+width: 800px;
 }
 
 #sidebar {
@@ -127,7 +113,7 @@ color: #555555;
 padding: 10px 30px;
 }
 #content ul li {
-list-style-type: square;
+    list-style-type: none;
 }
 
 #sidebar img { padding: 0; margin: 0; }
@@ -154,13 +140,33 @@ padding: 10px 0 20px 10px;
 }
 
 #sidebar ul li {
-    background: url(images/bullet.jpg) no-repeat center left;
-    padding: 2px 0 2px 22px;
+padding:5px 0;
 }
 #sidebar ul li a { font-size: 13px; }
 
-#sorttable
+.sortable
 {
-width:430px;
+width:800px;
 }
 
+.sortable th
+{
+height:40px;
+line-height:40px;
+font-weight: 700;
+font-size:11pt;
+border-bottom: 1px solid #ccc;
+}
+
+.sortable td
+{
+height: 30px;
+text-align:center;
+}
+
+.sortable tr.addRow td
+{
+text-align:center;
+color:#fff;
+background:url(images/sidebarh2.jpg) repeat-x left;
+}
