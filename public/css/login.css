@@ -1,0 +1,47 @@
+#container
+{
+position:absolute;
+top:300px;
+left:50%;
+width:400px;
+margin-left:-200px;
+}
+
+#logo
+{
+position: absolute;
+top:17px;
+text-align:center;
+height:100px;
+}
+
+#login_form
+{
+position:absolute;
+left:100px;
+font-size:12px;
+}
+
+#login_form label
+{
+margin:5px;
+display:block;
+font-weight:700;
+}
+
+#dialog-message
+{
+display:none;
+}
+
+input
+{
+font-family:Helvetica, Arial, sans-serif;
+width:100px;
+border:1px solid #999;
+}
+
+button
+{
+margin-left:1em;
+}
