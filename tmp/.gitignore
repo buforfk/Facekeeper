@@ -1,3 +1,4 @@
 /*.html.php
 /*.log
 /__Twig*.php
+/*.file.generate.xml.php
