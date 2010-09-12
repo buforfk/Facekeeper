@@ -43,4 +43,20 @@ class system_fetch extends Event
 
         $this->go('system/fetch');
     } 
+
+    public function now()
+    {
+        $result = array();
+        $client = new GearmanClient();
+        $client->addServer();
+        
+        $job_info = array();
+
+        $client->doBackground('Foreman', json_encode($job_info));
+
+        $this->notifyHelper->set('已開始立即抓取');
+        $this->adminHelper->log('已開始立即抓取');
+
+        $this->go('system/fetch');
+    }
 }
