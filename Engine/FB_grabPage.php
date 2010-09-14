@@ -39,7 +39,10 @@ function facebook_login($ch)
 
 function grabPage($job)
 {
-    $db = new PDO('mysql:host=localhost;dbname=repu', 'root' , 'bewexos');
+    $config = sfYaml::load('/var/www/Facekeeper/config/database.yml');
+    $ENV = 'development';
+
+    $db = new PDO('mysql:host='.$config[$ENV]['host'].';dbname='.$config[$ENV]['name'], $config[$ENV]['user'] , $config[$ENV]['password']); 
     $db->exec("SET NAMES 'utf8';");
     
     $face_cookie = '/var/www/Facekeeper/tmp/FB_Store/cookie.txt';
