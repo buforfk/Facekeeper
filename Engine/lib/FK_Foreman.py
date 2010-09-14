@@ -87,14 +87,13 @@ def throwGrabWork(db, depth):
     # 開始進行處理
     try:
         process_obj.process(depth)
+        callWorkers()
 
     # 如果 Gearman 沒開
     except RuntimeError:
         print "請啟動Gearman"
         os.system("sudo /etc/init.d/gearman-job-server start")
-        pass
-
-    callWorkers()
+	callWorkers()
     
 
 class Daemon_Process:
