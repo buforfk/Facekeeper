@@ -25,7 +25,7 @@
         </thead>
 
         <tbody>
-            {% for backup in directorty%}
+            {% for backup in directory %}
             <tr>
                 <td><a href="{{ bPack_rootpath }}backup/{{ backup }}" target="_blank">{{ backup }}</a></td>
                 <td><a href="{{ bPack_rootpath }}system/backup/remove?fn={{ backup }}" class="delete">刪除</a></td>

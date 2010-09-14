@@ -61,9 +61,6 @@ class system_backup extends Event
 
         $this->view->assign('directory',$directory);
 
-        $this->view->assign('status' , $this->config->get('fb.enable'));
-        $this->view->assign('username' , $this->config->get('fb.username'));
-        $this->view->assign('password' , $this->config->get('fb.password'));
         $this->view->output('system/backup.html');
     }
 
@@ -92,14 +89,4 @@ class system_backup extends Event
         $this->go('system/backup');
     }    
     
-    public function update()
-    {
-        $this->config->set('fb.username', $this->request->post('username',''));
-
-        $this->config->set('fb.password', $this->request->post('password',''));
-
-        $this->notifyHelper->set('Facebook 帳號設定已更新！');
-
-        $this->go('system/facebook');
-    } 
 }

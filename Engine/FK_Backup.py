@@ -21,7 +21,7 @@ def backup(job):
 def delete_backup(job):
     job_content = eval(job.arg)
 
-    command = "rm /var/www/Facekeeper/backup/" + job_content["file"]
+    command = "rm -f /var/www/Facekeeper/backup/" + job_content["file"]
     os.system(command)
     
 
