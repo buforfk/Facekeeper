@@ -5,12 +5,17 @@
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
 # 引入需要的 Library
-import gearman,os, datetime
+import gearman,os, datetime, yaml
 
 def backup(job):
-    
-    command = "mysqldump -uroot -pbewexos repu | bzip2 -9f > /var/www/Facekeeper/backup/" + datetime.datetime.today().strftime("%Y%m%d%H%M%S") + ".bz2"
+    config_text = open("/var/www/Facekeeper/config/database.yml")
 
+    ENV = "development"
+
+    config  = yaml.load(config_text)
+  
+    command = "mysqldump -u" + config[ENV]["user"]+" -p"+config[ENV]["password"]+" "+config[ENV]["name"] +" | bzip2 -9f > /var/www/Facekeeper/backup/" + datetime.datetime.today().strftime("%Y%m%d%H%M%S") + ".bz2"
+    print command
     os.system(command)
 
 def delete_backup(job):
