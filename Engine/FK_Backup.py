@@ -15,7 +15,6 @@ def backup(job):
     config  = yaml.load(config_text)
   
     command = "mysqldump -u" + config[ENV]["user"]+" -p"+config[ENV]["password"]+" "+config[ENV]["name"] +" | bzip2 -9f > /var/www/Facekeeper/backup/" + datetime.datetime.today().strftime("%Y%m%d%H%M%S") + ".bz2"
-    print command
     os.system(command)
 
 def delete_backup(job):

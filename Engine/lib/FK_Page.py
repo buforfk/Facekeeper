@@ -1,3 +1,4 @@
+
 #!/usr/bin/python
 # vim: set fileencoding=UTF-8
 
@@ -68,8 +69,6 @@ class Parser:
 
     def parse(self,job):
 	job_content = eval(job.arg)
-
-        print job_content["url"]
 
 	f = open("/var/www/Facekeeper/tmp/Page_store/" + job_content["pid"] + "/" + job_content["url"] + ".html")
 	fs_list = f.readlines()

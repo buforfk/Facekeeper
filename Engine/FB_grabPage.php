@@ -63,7 +63,6 @@ function grabPage($job)
     foreach($job_info->url as $url)
     {
         curl_setopt($ch, CURLOPT_URL,$url);
-        echo $url . "\n";
         $content = curl_exec($ch);
 
         if(strpos($content, 'login') === FALSE)
