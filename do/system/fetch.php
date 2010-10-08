@@ -19,7 +19,10 @@ class system_fetch extends Event
     
     public function defaultAction()
     {
-        $this->view->assign('interval', $this->config->get('fetch.interval'));
+	# interval had turn into file-based
+	$interval = intval(file_get_contents(bPack_App_BaseDir. 'config/engine.interval') / 3600);
+        $this->view->assign('interval', $interval);
+
         $this->view->assign('depth', $this->config->get('fetch.depth'));
         $this->view->assign('delete_enable', $this->config->get('fetch.delete_enable'));
         //$this->view->assign('keyword_combination', $this->config->get('fetch.keyword_combination'));
@@ -31,7 +34,10 @@ class system_fetch extends Event
 
     public function update()
     {
-        $this->config->set('fetch.interval', $this->request->post('interval',12,bP_INT));
+	# interval had turn into file-based
+	$interval = $this->request->post('interval',12,bP_INT) * 3600;
+	file_put_contents(bPack_App_BaseDir . 'config/engine.interval', $interval);	
+	
         $this->config->set('fetch.depth', $this->request->post('depth',5,bP_INT));
 
         $this->config->set('fetch.delete_enable', $this->request->post('delete_enable',0,bP_INT));

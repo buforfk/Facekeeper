@@ -67,7 +67,7 @@ else
 	currentTime=$(date '+%s')
 
 	if [ $currentTime -ge $targetTick ]; then
-
+		# Execute it and put lastrun in file
 		php "$FacekeeperPath/Engine/throwForeman.php"
 		LogIt "Engine,Foreman,1"
 		date '+%s' > "$FaceekeeperPath/tmp/engine.lastrun"
@@ -80,6 +80,15 @@ else
 fi
 
 #
+# Clean up Temp files
+#
+clearExpiredData
+
+#
 # Put A Seperate Line
 #
 LogIt "=================================="
+
+
+
+

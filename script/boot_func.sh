@@ -31,3 +31,22 @@ function checkWorker
 		LogIt "Worker,$1,1"
 	fi
 }
+
+#
+# clearExpiredData
+#
+function clearExpiredData
+{
+	# SE_store (only recent 20)
+	ls $FacekeeperPath/tmp/SE_store/ | sort -V | head -n -20 | awk -v FacekeeperPath="$FacekeeperPath" '{ print  FacekeeperPath "/tmp/SE_store/"$1}' | xargs rm -rf
+	LogIt "clearExpiredData,SE,1"
+
+	# Page_store (only recent 50)
+	ls $FacekeeperPath/tmp/Page_store/ | sort -V | head -n -50 | awk -v FacekeeperPath="$FacekeeperPath" '{ print  FacekeeperPath "/tmp/Page_store/"$1}' | xargs rm -rf
+	LogIt "clearExpiredData,Page,1"
+
+	# Database Record (only recent 50)
+	php $FacekeeperPath/script/clearExpiredRecords.php
+
+	. $FacekeeperPath/script/removeTemplateCache.sh
+}
