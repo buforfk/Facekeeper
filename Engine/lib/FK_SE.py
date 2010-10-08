@@ -77,11 +77,16 @@ class Parser:
 	fs = f.readlines()
 	file_text = ''.join(fs);
         SE = self.chooseSE(job_content["type"])
-        
+ 
+        result = SE.parse(file_text)
+
+        if len(result) == 0:
+            self.db.execute("INSERT INTO `logs` SET `daemon` = 'PARSESEPAGE', `message` = '*******"+job_content["type"]+" 解析結果為零，或許RE出了問題？**********', `time` = NOW();")
+
         if job_content["type"] == "Youtube":
-            self.writeTubeDB(job_content["pid"], SE.parse(file_text))
+            self.writeTubeDB(job_content["pid"], result)
 	elif SE != None:
-	    self.writeToDB(job_content["pid"], SE.parse(file_text))
+	    self.writeToDB(job_content["pid"], result)
     
     def chooseSE(self, se_name):
 	
