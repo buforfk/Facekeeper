@@ -31,8 +31,6 @@ fi
 #
 # check if workers alive
 #
-# NOTE: FB part are closed.
-#
 checkWorker "grabSEPage" 
 checkWorker "parseSEPage"
 checkWorker "saveSELink"
@@ -42,11 +40,11 @@ checkWorker "matchKeyword"
 checkWorker "FK_Backup"
 checkWorker "FForeman"
 checkWorker "grabVidInfo"
-#checkWorker "FB_fetchFans"
-#checkWorker "FB_fetchGroup"
-#checkWorker "FB_parsePage"
-#checkWorker "FB_grabPage"
-#checkWorker "FB_encodePage"
+checkWorker "FB_fetchFans"
+checkWorker "FB_fetchGroup"
+checkWorker "FB_parsePage"
+checkWorker "FB_grabPage"
+checkWorker "FB_encodePage"
 
 #
 # Check Last run(if exist), compared with config/engine_interval, if greater than, php throwForeman.php

@@ -32,7 +32,9 @@ function facebook_login($ch)
     curl_setopt($ch, CURLOPT_POSTFIELDS,'email='.urlencode($login_email).'&pass='.urlencode($login_pass).'&login=Login'); 
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); 
 
-    curl_exec($ch);
+    $content = curl_exec($ch);
+
+    file_put_contents('/var/www/Facekeeper/tmp/FB_Store/'.time().'.html', $content);
     
     $db->exec("INSERT INTO `logs` SET `daemon` = 'FB_GRABPAGE', `message` = 'FB登入成功', `time` = NOW();");
 }
@@ -65,12 +67,12 @@ function grabPage($job)
         curl_setopt($ch, CURLOPT_URL,$url);
         $content = curl_exec($ch);
 
-        if(strpos($content, 'login') === FALSE)
+        if(strpos($content, 'login.php') === FALSE)
         {
             file_put_contents('/var/www/Facekeeper/tmp/FB_Store/'. sha1($url).'.html', $content);
             $job_info_be_throw = array('hash'=>sha1($url), 'type' => $job_info->type);
             
-            $db->exec("INSERT INTO `logs` SET `daemon` = 'FB_GRABPAGE', `message` = '".$job_info->url."', `time` = NOW();");
+            $db->exec("INSERT INTO `logs` SET `daemon` = 'FB_GRABPAGE', `message` = '".json_encode($job_info->url)."', `time` = NOW();");
 
             $client->doBackground('FB_parsePage', json_encode($job_info_be_throw));
         }
