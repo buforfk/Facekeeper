@@ -12,7 +12,7 @@
 
 {# 頁面內容 #}
 {% block page %}
-    <p><a href="{{ bPack_rootpath }}report/log/cleanup" onclick="return confirm('您是否確認清除所有的抓取過程記錄？');" style="color:red; text-decoration:none;"><img src="{$bPack_rootpath}public/img/delete.png" border="0" />&nbsp;清除所有的抓取記錄</a></p>
+    <p><a href="{{ bPack_rootpath }}report/log/cleanup" onclick="return confirm('您是否確認清除所有的抓取過程記錄？');" style="color:red; text-decoration:none;"><img src="{{ bPack_rootpath }}public/img/delete.png" border="0" />&nbsp;清除所有的抓取記錄</a></p>
    
    <textarea style="width:98%;font-size:10pt;height:300px;">{% for record in log %}
 {{ record.time }}:{{ record.daemon }}:{{ record.message}}

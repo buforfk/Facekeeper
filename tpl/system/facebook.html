@@ -45,7 +45,7 @@
                 <td>{% if item.type %}粉絲{% else %}社團{% endif %}</td>
                 <td>{{ item.title }}</td>
                 <td>{{ item.url }}</td>
-                <td>{% if item.tracking %}<a href="{$bPack_rootpath}system/facebook/remove_track?id={$directory[sec1].id}" class="remove_track">移除監視</a>{% else %}<a href="{{ bPack_rootpath }}system/facebook/add_track?id={$directory[sec1].id}" class="add_track">加入監視</a>{% endif %}
+                <td>{% if item.tracking %}<a href="{{ bPack_rootpath }}system/facebook/remove_track?id={$directory[sec1].id}" class="remove_track">移除監視</a>{% else %}<a href="{{ bPack_rootpath }}system/facebook/add_track?id={$directory[sec1].id}" class="add_track">加入監視</a>{% endif %}
             </tr>
             {% endfor %} 
     </table>
