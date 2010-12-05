@@ -1,5 +1,4 @@
 # 設定目前環境
-SetEnv APP_ENV development
 
 # 建立 Rewrite
 RewriteEngine On

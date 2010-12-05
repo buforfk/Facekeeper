@@ -8,7 +8,7 @@
     require_once('/var/www/Facekeeper/lib/bPack/lib/sfYaml/sfYaml.php');
 
     $config = sfYaml::load('/var/www/Facekeeper/config/database.yml');
-    $ENV = 'development';
+    $ENV = 'production';
 
     $db = new PDO('mysql:host='.$config[$ENV]['host'].';dbname='.$config[$ENV]['name'], $config[$ENV]['user'] , $config[$ENV]['password']);
     $db->exec("SET NAMES 'utf8';");

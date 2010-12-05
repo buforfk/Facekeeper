@@ -1,6 +1,6 @@
 <?php
 // 定義必需常數
-define('bPack_App_BaseDir','');
+define('bPack_App_BaseDir','/var/www/Facekeeper/');
 define('bPack_APP_ENV', (getenv('APP_ENV') ? getenv('APP_ENV') : 'production'));
 
 // 載入相關常數

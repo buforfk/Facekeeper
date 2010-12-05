@@ -13,7 +13,7 @@ class MySQL:
         config_text = open("/var/www/Facekeeper/config/database.yml")
         config = yaml.load(config_text)
 
-        ENV = "development"
+        ENV = "production"
 
 	self.db_conn = MySQLdb.connect (host = config[ENV]['host'],
                         user = config[ENV]['user'],

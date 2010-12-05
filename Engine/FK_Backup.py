@@ -25,6 +25,6 @@ def delete_backup(job):
     
 
 worker = gearman.GearmanWorker(["127.0.0.1"])
-worker.register_function("system_backup", backup)
-worker.register_function("delete_backup", delete_backup)
+worker.register_task("system_backup", backup)
+worker.register_task("delete_backup", delete_backup)
 worker.work()

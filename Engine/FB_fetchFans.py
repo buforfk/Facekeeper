@@ -11,5 +11,5 @@ import gearman, FK_Common, FK_FB
 grabber = FK_FB.URLGenerater(FK_FB.Fans())
 
 worker = gearman.GearmanWorker(["127.0.0.1"])
-worker.register_function("FB_fetchFans", grabber.grab)
+worker.register_task("FB_fetchFans", grabber.grab)
 worker.work()

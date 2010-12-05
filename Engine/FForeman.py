@@ -21,5 +21,5 @@ def Foreman(job):
 
 # set up a grabber object
 worker = gearman.GearmanWorker(["127.0.0.1"])
-worker.register_function("Foreman", Foreman)
+worker.register_task("Foreman", Foreman)
 worker.work()

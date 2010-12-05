@@ -14,6 +14,6 @@ ideal_works = ["grabSEPage", "parseSEPage","saveSELink","grabPage","encodePage",
 worker = gearman.GearmanWorker(["127.0.0.1"])
 
 for work in ideal_works:
-    worker.register_function(work, nothing)
+    worker.register_task(work, nothing)
 
 worker.work()
