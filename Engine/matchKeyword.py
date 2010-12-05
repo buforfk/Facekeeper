@@ -10,5 +10,5 @@ db = db_conn.MySQL()
 Parser = FK_Page.Parser(db)
 
 worker = gearman.GearmanWorker(["127.0.0.1"])
-worker.register_function("matchKeyword", Parser.parse)
+worker.register_task("matchKeyword", Parser.parse)
 worker.work()

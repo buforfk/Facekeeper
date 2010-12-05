@@ -10,5 +10,5 @@ import gearman, FK_Common ,FK_Tube
 grabber = FK_Tube.VidGrabber()
 
 worker = gearman.GearmanWorker(["127.0.0.1"])
-worker.register_function("grabVidInfo", grabber.grab)
+worker.register_task("grabVidInfo", grabber.grab)
 worker.work()

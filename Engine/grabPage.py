@@ -10,5 +10,5 @@ import gearman, FK_Common ,FK_Page
 grabber = FK_Page.Grabber()
 
 worker = gearman.GearmanWorker(["127.0.0.1"])
-worker.register_function("grabPage", grabber.grab)
+worker.register_task("grabPage", grabber.grab)
 worker.work()
