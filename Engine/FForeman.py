@@ -6,7 +6,7 @@
 
 # 引入必要的 Library
 import FK_Common, db_conn, FK_Foreman ; # FK_Common 是基底類別, db_conn 是資料庫連線類別, FK_Foreman 是本程式處理的 Library
-import datetime, FK_SearchEngine, os
+import datetime, FK_SearchEngine, os,gearman
 
 def Foreman(job):
     # 資料庫連線
