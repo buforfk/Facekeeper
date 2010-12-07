@@ -1,0 +1,19 @@
+#
+# Database config
+#
+
+last_updated: 2010-03-21
+
+development:
+    adapter: PDO_MySQL
+    host: localhost
+    database: SC
+    user: root
+    password: bewexos
+    
+production:
+    adapter: PDO_MySQL
+    host: localhost
+    database: SC
+    user: root
+    password: bewexos
