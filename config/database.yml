@@ -1,0 +1,6 @@
+production:
+    adapter: bPack_DB_MySQL
+    name: facekeeper
+    user: facekeeper
+    password: fAceK1epe2
+    host: localhost
