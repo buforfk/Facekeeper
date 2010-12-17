@@ -5,7 +5,7 @@
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
 # 引入必要的 Library
-import gearman, sys, os, hashlib, datetime
+import gearman, sys, os, hashlib, datetime,json
 
 import FK_SearchEngine
 
@@ -28,7 +28,7 @@ def throwGrabWork(db, depth):
     
     # 初始化工作物件
     process_obj = Daemon_Process(db)
-    
+
     # 是否在後台啟用了 Yahoo？
     if FK_CONFIGS["source.yahoo.enable"] == "1":
         YahooSE = FK_SearchEngine.Yahoo()
@@ -56,7 +56,7 @@ class Daemon_Process:
     def __init__(self,db):
 	self.db = db
 	self.SE = []
-        self.gearman_client = gearman.GearmanClient(["127.0.0.1"])	
+        self.gearman_client = gearman.client.GearmanClient(["127.0.0.1"])	
 
     def registerCronProcess(self):
 	self.db.execute("INSERT INTO `cron_running_logs` SET `start_time` = NOW();")
@@ -112,9 +112,11 @@ class Daemon_Process:
                 page_hash = self.hashobj.hexdigest()
 
                 self.db.execute("INSERT INTO `result_pool` SET `pid` = '" + str(pid) + "',`hash` = '" + self.hashobj.hexdigest() + "',`url` = '" + page["url"] + "', `title` = '" + page["title"] + "',`source` = 1, `time` = NOW();")
+		
+		data_string = json.dumps({"pid":str(pid), "url": page["url"], "type": 1, "hash":page_hash})
+		self.gearman_client.submit_job("grabPage", data_string,priority=gearman.PRIORITY_HIGH, background=True)
 
-                self.gearman_client.dispatch_background_task("grabPage",{"pid":str(pid), "url": page["url"], "type": 1, "hash":page_hash})
-
+        tasks = []
         # 正式給 SE 們工作
         for SE in self.SE:
             # 先判斷搜尋引擎是不是 Youtube / PTT / Facebook
@@ -128,9 +130,7 @@ class Daemon_Process:
             for keyword in loop_keyword:
                 # 每一頁的深度
 		for i in range(int(depth)):
-                    # 試著去 throw Task
-		    try:
-                        self.gearman_client.dispatch_background_task("grabSEPage", {"pid": str(pid), "url": SE.generateURL(keyword, i + 1), "type": SE.typeName})
-                    # 如果有抓到例外情形，就回傳 RuntimeError 說明
-                    except gearman.client.GearmanBaseClient.ServerUnavailable:
-                        raise RuntimeError()
+		    data_string = json.dumps({"pid":str(pid), "url": SE.generateURL(keyword, i + 1), "type": SE.typeName})
+		    tasks.append({"task":"grabSEPage","data":data_string})
+	
+        self.gearman_client.submit_multiple_jobs(tasks, background=True, wait_until_complete=False);

@@ -4,7 +4,7 @@
 # Facekeeper v1.0
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
-import gearman,urllib2,datetime,hashlib,os,re,itertools,sys,db_conn
+import gearman.client,urllib2,datetime,hashlib,os,re,itertools,sys,db_conn,json
 
 class VidGrabber:
     def __init__(self):
@@ -12,7 +12,7 @@ class VidGrabber:
         self.db = db_conn.MySQL()
 
     def grab(self, job):
-	job_content = eval(job.arg)
+	job_content =json.loads(job.arg)
 
 	self.request_obj = urllib2.Request("http://www.youtube.com/watch?v=" + job_content["url"])
 	

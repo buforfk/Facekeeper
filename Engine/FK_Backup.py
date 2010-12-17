@@ -5,12 +5,12 @@
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
 # 引入需要的 Library
-import gearman,os, datetime, yaml
+import gearman.worker,os, datetime, yaml
 
 def backup(job):
     config_text = open("/var/www/Facekeeper/config/database.yml")
 
-    ENV = "development"
+    ENV = "production"
 
     config  = yaml.load(config_text)
   
@@ -24,7 +24,7 @@ def delete_backup(job):
     os.system(command)
     
 
-worker = gearman.GearmanWorker(["127.0.0.1"])
+worker = gearman.worker.GearmanWorker(["127.0.0.1"])
 worker.register_task("system_backup", backup)
 worker.register_task("delete_backup", delete_backup)
 worker.work()

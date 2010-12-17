@@ -1,4 +1,4 @@
 <?php
     $client = new GearmanClient();
-    $client->addServer();
+    $client->addServer('localhost');
     $client->doBackground('Foreman', time());

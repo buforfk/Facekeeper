@@ -4,17 +4,18 @@
 # Facekeeper v1.0
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
-import gearman,urllib2,datetime,hashlib,os,sys,FK_SearchEngine, db_conn
+import gearman.client,urllib2,datetime,hashlib,os,sys,FK_SearchEngine, db_conn,json
 
 class Grabber:
     def __init__(self):
 	self.datetime_obj = datetime.datetime
 	self.hashobj = hashlib.new('sha1')
-	self.gearman_client = gearman.GearmanClient(["127.0.0.1"])
+	self.gearman_client = gearman.client.GearmanClient(["127.0.0.1"])
         self.db = db_conn.MySQL()
 
     def grab(self, job):
-	job_content = eval(job.arg)
+	job_content = json.loads(job.arg)
+	self.db.execute("insert into `temp` set `data` = '"+job.arg+"';")
 	
 	self.request_obj = urllib2.Request(job_content["url"])
 	self.hashobj.update(job_content["url"])
@@ -59,8 +60,9 @@ class Grabber:
 	fs.close()
 
     def throwAnaJob(self, job):
-	self.gearman_client = gearman.GearmanClient(["127.0.0.1"])		
-	self.gearman_client.dispatch_background_task("parseSEPage", {"pid": job["pid"] , "url": self.hashobj.hexdigest(), "type": job["type"]})
+	self.gearman_client = gearman.client.GearmanClient(["127.0.0.1"])		
+	data_string = json.dumps({"pid": job["pid"] , "url": self.hashobj.hexdigest(), "type": job["type"]})
+	self.gearman_client.submit_job("parseSEPage", data_string,priority=gearman.PRIORITY_HIGH, background=True)
 
 # Parser
 # 分析器
@@ -68,10 +70,10 @@ class Parser:
     def __init__(self, db):
 	self.db = db
         self.datetime_obj = datetime.datetime
-	self.gearman_client = gearman.GearmanClient(["127.0.0.1"])
+	self.gearman_client = gearman.client.GearmanClient(["127.0.0.1"])
 
     def parse(self, job):
-	job_content = eval(job.arg)
+	job_content = json.loads(job.arg)
 
 	f = open("/var/www/Facekeeper/tmp/SE_store/" + job_content["pid"] + "/" + job_content["url"] + ".html")
 	fs = f.readlines()
@@ -112,9 +114,11 @@ class Parser:
             
             result_temp2 = self.db.execute("SELECT `hash` FROM `result_pool` WHERE `id` = '" + str(result_temp["LAST_INSERT_ID()"]) + "'").fetchone()
 
+	    data_string = json.dumps({"pid": str(pid), "id": str(result_temp["LAST_INSERT_ID()"])})	
+            self.gearman_client.submit_job("saveSELink", data_string, priority=gearman.PRIORITY_HIGH, background=True) 
 
-            self.gearman_client.dispatch_background_task("saveSELink", {"pid": str(pid), "id": str(result_temp["LAST_INSERT_ID()"])}) 
-	    self.gearman_client.dispatch_background_task("grabPage", {"pid": str(pid), "url": link[0] ,"hash": result_temp2["hash"], "type": "0" }) 
+	    data_string = json.dumps({"pid": str(pid), "url": link[0] ,"hash": result_temp2["hash"], "type": "0" })
+	    self.gearman_client.submit_job("grabPage", data_string, priority=gearman.PRIORITY_HIGH, background=True) 
 
             self.db.execute("INSERT INTO `logs` SET `daemon` = 'PARSESEPAGE', `message` = '" + str(link[0]) + "(" + str(result_temp["LAST_INSERT_ID()"]) + ")" + "', `time` = NOW();")
 
@@ -124,7 +128,8 @@ class Parser:
             self.db.execute("INSERT INTO `youtube_pool` SET `pid` = '" + pid + "',`hash` = SHA1('" + link[0] + "'),`url` = '" + link[0] + "', `title` = '" + link[1] + "', `time` = NOW();")
             
             result_temp = self.db.execute("SELECT LAST_INSERT_ID();").fetchone()
-            
-	    self.gearman_client.dispatch_background_task("grabVidInfo", {"pid": str(pid), "url": link[0] ,"id": str(result_temp["LAST_INSERT_ID()"]) }) 
+ 	    
+	    data_string = json.dumps({"pid": str(pid), "url": link[0] ,"id": str(result_temp["LAST_INSERT_ID()"]) })           
+	    self.gearman_client.submit_job("grabVidInfo", data_string,priority=gearman.PRIORITY_HIGH, background=True)
 
             self.db.execute("INSERT INTO `logs` SET `daemon` = 'PARSESEPAGE', `message` = 'Youtube: " + str(link[0]) + "(" + str(result_temp["LAST_INSERT_ID()"]) + ")" + "', `time` = NOW();")

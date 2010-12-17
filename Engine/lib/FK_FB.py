@@ -4,7 +4,7 @@
 # Facekeeper v1.0
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
-import gearman, urllib, re, db_conn, FK_Foreman, sys
+import gearman.client, urllib, re, db_conn, FK_Foreman, sys, json
 
 class Fans:
     def __init__(self):
@@ -40,7 +40,7 @@ class Group:
 
 class URLGenerater:
     def __init__(self, fetcher):
-	self.gearman_client = gearman.GearmanClient(["127.0.0.1"])
+	self.gearman_client = gearman.client.GearmanClient(["127.0.0.1"])
         self.db = db_conn.MySQL()
         self.fetcher = fetcher
         self.url_pool = []
@@ -48,7 +48,7 @@ class URLGenerater:
         self.type_name = ["群組","粉絲"]
 
     def grab(self, job):
-	job_content = eval(job.arg)
+	job_content = json.loads(job.arg)
         
         # 產生 URL
         for keyword in job_content["keyword"]:
@@ -56,7 +56,8 @@ class URLGenerater:
                 self.url_pool.append(self.fetcher.generateURL(keyword,(page+1)))
 
         # 丟到 PHP 處理
-        self.gearman_client.dispatch_background_task("FB_grabPage", {"url": self.url_pool, "type": self.fetcher.type_id })  
+	data_string = json.dumps({"url": self.url_pool, "type": self.fetcher.type_id })
+        self.gearman_client.submit_job("FB_grabPage", data_string, priority=gearman.PRIORITY_HIGH, background=True)
  
         self.db.execute("INSERT INTO `logs` SET `daemon` = 'FB_FETCH', `message` = 'FB " + self.type_name[self.fetcher.type_id] + " 網址組合完成', `time` = NOW();")
 
@@ -66,7 +67,7 @@ class Parser:
         self.type_name = ["群組","粉絲"]
 
     def parse(self, job):
-        job_content = eval(job.arg)
+        job_content = json.loads(job.arg)
         
         # 叫出對應的 Fetcher
         if job_content["type"] == 0:
@@ -93,22 +94,22 @@ class Parser:
 class Encoder:
     def __init__(self):
         self.db = db_conn.MySQL()
-        self.gearman_client = gearman.GearmanClient(["127.0.0.1"])
+        self.gearman_client = gearman.client.GearmanClient(["127.0.0.1"])
 
     def encode(self, job):
-        job_content = eval(job.arg)
+        job_content = json.loads(job.arg)
 
         fs = open("/var/www/Facekeeper/tmp/Page_store/"+job_content["pid"]+"/"+job_content["url"]+".html")
         fs_list = fs.readlines()
         fs_text = ''.join(fs_list)
         fs_text = fs_text.decode("raw_unicode_escape").encode("utf-8")
         fs.close()
-        
 
         fs = open("/var/www/Facekeeper/tmp/Page_store/"+job_content["pid"]+"/"+job_content["url"]+".html","w")
         fs.write(fs_text)
         fs.close()
 
         self.db.execute("INSERT INTO `logs` SET `daemon` = 'FK_FB:Encoder', `message` = '"+job_content["url"]+" 成功轉換', `time` = NOW();")
+	data_string = json.dumps(job_content)
 
-        self.gearman_client.dispatch_background_task("matchKeyword", job_content)
+        self.gearman_client.submit_job("matchKeyword", job_content,priority=gearman.PRIORITY_HIGH, background=True)

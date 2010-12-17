@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # vim: set fileencoding=UTF-8
 
-# Facekeeper v1.0
+# Facekeeper v1.5
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
 import MySQLdb
@@ -14,7 +14,7 @@ class MySQL:
         config = yaml.load(config_text)
 
         ENV = "production"
-
+	
 	self.db_conn = MySQLdb.connect (host = config[ENV]['host'],
                         user = config[ENV]['user'],
                         passwd = config[ENV]['password'],

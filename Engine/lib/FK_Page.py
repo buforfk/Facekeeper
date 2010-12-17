@@ -4,14 +4,14 @@
 # Facekeeper v1.0
 # (C) 2010 bu <bu@hax4.in>, Zero <mrjjack@hotmail.com>
 
-import gearman,urllib2,datetime,hashlib,os,re,itertools,sys
+import gearman.client,urllib2,datetime,hashlib,os,re,itertools,sys, json
 
 class Grabber:
     def __init__(self):
 	self.datetime_obj = datetime.datetime
 
     def grab(self, job):
-	job_content = eval(job.arg)
+	job_content = json.loads(job.arg)
 	self.request_obj = urllib2.Request(job_content["url"])
 	
 	# 設定標頭
@@ -46,12 +46,14 @@ class Grabber:
 	fs.close()
 
     def throwAnaJob(self, job):
-	self.gearman_client = gearman.GearmanClient(["127.0.0.1"])
+	self.gearman_client = gearman.client.GearmanClient(["127.0.0.1"])
+	
+	data_string = json.dumps({"pid": job["pid"] , "url": job["hash"]})	
 
         if job["type"] == 1:
-            self.gearman_client.dispatch_background_task("FB_encodePage", {"pid": job["pid"] , "url": job["hash"]})
+	    self.gearman_client.submit_jobs("FB_encodePage", data_string,priority=gearman.PRIORITY_HIGH, background=True)
         else:
-            self.gearman_client.dispatch_background_task("encodePage", {"pid": job["pid"] , "url": job["hash"]})
+	    self.gearman_client.submit_jobs("encodePage", data_string,priority=gearman.PRIORITY_HIGH, background=True)
 
 #
 #
@@ -67,7 +69,7 @@ class Parser:
 	self.keyword_pattern = pattern;
 
     def parse(self,job):
-	job_content = eval(job.arg)
+	job_content = json.loads(job.arg)
 
 	f = open("/var/www/Facekeeper/tmp/Page_store/" + job_content["pid"] + "/" + job_content["url"] + ".html")
 	fs_list = f.readlines()
